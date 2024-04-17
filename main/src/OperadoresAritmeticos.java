@@ -1,4 +1,4 @@
-public class App {
+public class OperadoresAritmeticos {
     public static void main(String[] args) throws Exception {
         // declaracao e inicializacao de variaveis
     int x = 10;
