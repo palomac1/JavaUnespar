@@ -32,7 +32,7 @@ public class AFD_Trab {
 
         // Preenche as transições da tabela
         System.out.println("Digite as transições:");
-         // Percorre cada estado e o preenche de acordo com o caractere que o usuário informa
+        // Percorre cada estado e o preenche de acordo com o caractere que o usuário informa
         for (int estado = 0; estado < numEstados; estado++) {
             System.out.println("Para estado q" + estado + ", insira as transições para cada símbolo do alfabeto:");
             //Verifica o conjunto de caracteres que pode ser aceito atraves de um loop e armazena o próximo estado na matriz de transição
@@ -43,16 +43,17 @@ public class AFD_Trab {
             }
         }
 
-
         // Lê a cadeia de entrada 
         System.out.println("Informe uma cadeia para verificar:");
         String cadeia = scanner.nextLine();
 
-         // Verifica o conjunto de caracteres que pode ser aceito pelo AFD
+        // Verifica o conjunto de caracteres que pode ser aceito pelo AFD
         int estadoAtual = estadoInicial;
+        ///Executa até que todos os caracteres sejam lidos e acessa toda a cadeia
         for (int posicao = 0; posicao < cadeia.length(); posicao++) {
             char simbolo = cadeia.charAt(posicao);
-            int simboloIndex = Arrays.asList(sigma).indexOf(String.valueOf(simbolo)); // Retorna o índice do item na lista, se não for encontrado retorna -1
+            // Retorna o índice do item na lista, se não for encontrado retorna -1
+            int simboloIndex = Arrays.asList(sigma).indexOf(String.valueOf(simbolo)); 
 
             // Se o índice do símbolo for -1, entao o símbolo não pertence ao alfabeto 
             if (simboloIndex == -1) {
