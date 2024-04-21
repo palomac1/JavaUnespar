@@ -9,6 +9,7 @@ public class AFDSimples {
     static int estadoInicial = 0; //Variavel para o estado inicial
     static int [] aceitacao = {1}; //Variavel com os estados aceitos
     public static void main(String[] args) {
+        @SuppressWarnings("resource")
         Scanner leitor = new Scanner(System.in);
         String cadeia;
         int posicao = 0, estado = estadoInicial;
