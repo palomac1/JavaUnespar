@@ -1,0 +1,59 @@
+package main.LFA;
+
+import java.util.Scanner;
+
+public class AFDSimples {
+    //E = {q0, q1}
+    //Sigma = {0, 1}
+    static int [][] transição = {{0, 1}, {1, 0}};
+    static int estadoInicial = 0;
+    static int [] aceitacao = {1};
+    public static void main(String[] args) {
+        Scanner leitor = new Scanner(System.in);
+        String cadeia;
+        int posicao = 0, estado = estadoInicial;
+        char simbolo;
+
+        System.out.println("Informe uma cadeia: ");
+        cadeia = leitor.nextLine();
+
+        //Executa o while até que a cadeia seja totalmente lida
+        while (posicao<cadeia.length()) {
+            imprimeCI(cadeia, estado, posicao);
+
+            //Comparação da tabela de transição
+            simbolo = cadeia.charAt(posicao);
+            int simboloInt = Integer.parseInt(simbolo+"");//Passa de string para inteiro
+            estado = transição[estado] [simboloInt]; //Atualiza o estado com base na transição
+            posicao++; //Acessa toda a cadeia
+        }
+
+        imprimeCI(cadeia, estado, posicao);
+        //Verifica o conjunto de caracteres que pode ser aceito
+        boolean aceita = false;
+
+        for (int i: aceitacao){
+            if(estado == i) aceita = true; //Se for igual, a cadeia é aceita
+        }
+
+            if (aceita) {
+                System.out.println("Aceita");
+            } else {
+                System.out.println("Nao Aceita");
+            }
+    }
+
+    //Função para realizar a leitura de cada simbolo da cadeia
+    public static void imprimeCI(String cadeia, int estado, int posicao){
+        //Imprime a cadeia que esta sendo lida de acordo com a mudança de estados
+            System.out.print(cadeia.substring(0, posicao));
+        //Diz qual o estado atual
+            System.out.print("[q"+estado+"]");
+        //Informa a cadeia que falta
+            System.out.println(cadeia.substring(posicao));
+    }
+}
+
+
+
+
