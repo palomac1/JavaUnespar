@@ -1,3 +1,4 @@
+package main.LOO;
 import java.util.*;
 public class EntradaComScanner {
     public static void main(String args[]){

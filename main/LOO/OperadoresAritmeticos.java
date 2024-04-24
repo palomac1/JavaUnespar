@@ -1,3 +1,4 @@
+package main.LOO;
 public class OperadoresAritmeticos {
     public static void main(String[] args) throws Exception {
         // declaracao e inicializacao de variaveis
