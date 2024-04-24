@@ -10,13 +10,13 @@ public class AFDSimples {
     static int [] aceitacao = {1}; //Variavel com os estados aceitos
    
     public static void main(String[] args) {
-        Scanner leitor = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         String cadeia;
         int posicao = 0, estado = estadoInicial;
         char simbolo;
 
         System.out.println("Informe uma cadeia: ");
-        cadeia = leitor.nextLine();
+        cadeia = scanner.nextLine();
 
         //Executa o while até que a cadeia seja totalmente lida
         while (posicao<cadeia.length()) {

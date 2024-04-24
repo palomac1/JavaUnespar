@@ -1,9 +1,11 @@
 package main.LFA;
 
 import java.util.*;
+import java.util.Scanner;
 
 public class AFD_Trab {
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
         // Variavel para o número de estados do AFD
@@ -71,6 +73,8 @@ public class AFD_Trab {
         } else {
             System.out.println("Não aceita");
         }
+
+        scanner.close();
     }
 }
 
