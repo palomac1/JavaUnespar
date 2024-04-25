@@ -79,3 +79,6 @@ public class AFD_Trab {
 }
 
 
+//Ver qual não muda o estado
+//Exibir a tabela de transição
+//Fazer mais de uma palavra
