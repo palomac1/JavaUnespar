@@ -1,4 +1,4 @@
-package main.LOO;
+package LOO.Aula24;
 import javax.swing.JOptionPane;
 
 public class exc2 {

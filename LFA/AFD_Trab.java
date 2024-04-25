@@ -1,4 +1,4 @@
-package main.LFA;
+package LFA;
 
 import java.util.*;
 import java.util.Scanner;

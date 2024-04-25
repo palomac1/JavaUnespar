@@ -1,4 +1,4 @@
-package main.LOO;
+package LOO.Aula17;
 public class TiposPrimitivos {
 	public static void main(String args[]) {
 		char sexo = 'f';
