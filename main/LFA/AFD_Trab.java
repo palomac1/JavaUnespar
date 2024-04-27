@@ -20,10 +20,10 @@ public class AFD_Trab {
     
             // Variavel para o número de estados finais do AFD
             System.out.println("\nDigite os estados finais (Se houver mais de um, separe por espaços):");
-            String[] estadoFinalStr = scanner.nextLine().split(" ");
+            String[] estadoFinal = scanner.nextLine().split(" ");
             // Armazenados em um Set(conjunto) para facilitar a busca e comparação
             Set<Integer> aceitacao = new HashSet<>();
-            for (String estado : estadoFinalStr) {
+            for (String estado : estadoFinal) {
                 aceitacao.add(Integer.parseInt(estado));
             }
     
@@ -65,17 +65,17 @@ public class AFD_Trab {
                 System.out.println();
             }
 
-            // Exibe a definição formal do AFD
+            // Descição formal do AFD
             System.out.println("\nDescrição Formal");
             System.out.println("E = {" + getEstados(numEstados) + "}");
             System.out.println("Sigma = {" + String.join(", ", sigma) + "}");
             System.out.println("i = q" + estadoInicial);
-            System.out.println("F = {" + getEstadosFinal(aceitacao) + "}");
+            System.out.println("F = {" + getEstadoFinal(aceitacao) + "}");
 
             // Loop para verificar várias cadeias, até o usuário sair
             while (true) {
                 // Lê a cadeia de entrada 
-                System.out.println("\nInforme uma cadeia para verificar (Digite 'sair' para fechar o programa):");
+                System.out.println("\nInforme uma cadeia (Digite 'sair' para fechar o programa):");
                 String cadeia = scanner.nextLine();
                 //Fecha o programa caso o usuário digite "sair"
                 if (cadeia.equalsIgnoreCase("sair")) {
@@ -124,6 +124,7 @@ public class AFD_Trab {
             scanner.close();
         }
 
+        // Função para obter todos os estados e ordena-los
         private static String getEstados(int numEstados) {
             StringBuilder estados = new StringBuilder();
             for (int i = 0; i < numEstados; i++) {
@@ -135,7 +136,8 @@ public class AFD_Trab {
             return estados.toString();
         }
     
-        private static String getEstadosFinal(Set<Integer> aceitacao) {
+        // Função para obeter os estados finais
+        private static String getEstadoFinal(Set<Integer> aceitacao) {
             List<String> estadosFinais = new ArrayList<>();
             for (int estado : aceitacao) {
                 estadosFinais.add("q" + estado);
