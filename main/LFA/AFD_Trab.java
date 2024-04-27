@@ -12,7 +12,7 @@ public class AFD_Trab {
     
             // Variavel para o alfabeto(sigma) do AFD
             System.out.println("\nDigite o alfabeto, separados por espaços:");
-            String[] sigma = scanner.nextLine().split(" "); // Divide em matriz, por isso o espaço
+            String[] sigma = scanner.nextLine().split(" "); // Divide em matriz
     
             // Variavel para o estado inicial do AFD
             System.out.println("\nDigite o estado inicial:");
