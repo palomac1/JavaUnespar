@@ -3,11 +3,20 @@ package LFA;
 import java.util.*;
 
 public class AFD_Trab {
+
+    // Códigos ANSI para cores
+    public static final String RESET = "\033[0m";
+    public static final String RED = "\033[0;31m";
+    public static final String BLUE = "\033[0;34m";
+    public static final String PURPLE = "\033[0;35m";
         public static void main(String[] args) {
+            
             Scanner scanner = new Scanner(System.in);
     
+            System.out.println(PURPLE + "AUTOMÂTO FINITO DETERMINISTICO" + RESET);
+
             // Variavel para o número de estados do AFD
-            System.out.println("Digite o número de estados:");
+            System.out.println("\nDigite o número de estados:");
             int numEstados = Integer.parseInt(scanner.nextLine());
     
             // Variavel para o alfabeto(sigma) do AFD
@@ -35,8 +44,8 @@ public class AFD_Trab {
             }
     
             // Preenche as transições da tabela
-            System.out.println("\nTRANSIÇÕES");
-            System.out.println("\nOBS: Caso não exista uma transição, insira -1");
+            System.out.println(BLUE + "\nTRANSIÇÕES" + RESET);
+            System.out.println(RED + "\nOBS: Caso não exista uma transição, insira -1" + RESET);
             System.out.println("\nDigite as transições para cada simbolo");
              // Percorre cada estado e o preenche de acordo com o caractere que o usuário informa
             for (int estado = 0; estado < numEstados; estado++) {
@@ -50,7 +59,7 @@ public class AFD_Trab {
             }
     
             // Exibe a tabela de transição 
-            System.out.println("\nTabela de Transições");
+            System.out.println(BLUE + "\nTABELA DE TRANSIÇÕES\n" + RESET);
             System.out.print("    ");
             for (String simbolo : sigma) {
                 System.out.print(" " + simbolo);
@@ -60,15 +69,15 @@ public class AFD_Trab {
             for (int estado = 0; estado < numEstados; estado++) {
                 System.out.print("q" + estado + " ");
                 for (int simboloIndex = 0; simboloIndex < sigma.length; simboloIndex++) {
-                    System.out.print(" " + (transicoes[estado][simboloIndex] == -1 ? "-" : "q" + transicoes[estado][simboloIndex]));
+                    System.out.print(" " + (transicoes[estado][simboloIndex] == -1 ? RED + "x" + RESET: "q" + transicoes[estado][simboloIndex]));
                 }
                 System.out.println();
             }
 
             // Descição formal do AFD
-            System.out.println("\nDescrição Formal");
+            System.out.println(BLUE + "\nDESCRIÇÃO FORMAL\n" + RESET);
             System.out.println("E = {" + getEstados(numEstados) + "}");
-            System.out.println("Sigma = {" + String.join(", ", sigma) + "}");
+            System.out.println("\u03A3= {" + String.join(", ", sigma) + "}");
             System.out.println("i = q" + estadoInicial);
             System.out.println("F = {" + getEstadoFinal(aceitacao) + "}");
 
@@ -145,6 +154,7 @@ public class AFD_Trab {
             return String.join(", ", estadosFinais);
         }
 }
-    
+
+
 
 
