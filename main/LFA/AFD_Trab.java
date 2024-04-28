@@ -15,7 +15,7 @@ public class AFD_Trab {
     
             System.out.println(PURPLE + "AUTOMÂTO FINITO DETERMINISTICO" + RESET);
 
-            // Variavel para o número de estados do AFD
+            // Variável para o número de estados do AFD
             System.out.println("\nDigite o número de estados:");
             int numEstados = Integer.parseInt(scanner.nextLine());
     
@@ -99,7 +99,7 @@ public class AFD_Trab {
                     // Retorna o índice do item na lista, se não for encontrado retorna -1
                     int simboloIndex = Arrays.asList(sigma).indexOf(String.valueOf(simbolo));
                     
-                    // Se o simbolo for diferente do alfabto informado, entao o símbolo não pertence ao alfabeto 
+                    // Se o simbolo for diferente do alfabeto informado, entao o símbolo não pertence ao alfabeto 
                     if (simboloIndex == -1) {
                         System.out.println("\nCadeia contém símbolo inválido no alfabeto.");
                         rejeitado = true;
@@ -132,7 +132,7 @@ public class AFD_Trab {
             scanner.close();
         }
 
-        // Função para obter todos os estados e ordena-los
+        // Função para obter todos os estados
         private static String getEstados(int numEstados) {
             StringBuilder estados = new StringBuilder();
             for (int i = 0; i < numEstados; i++) {
