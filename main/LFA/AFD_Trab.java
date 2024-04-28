@@ -30,7 +30,6 @@ public class AFD_Trab {
             // Variavel para o número de estados finais do AFD
             System.out.println("\nDigite os estados finais (Se houver mais de um, separe por espaços):");
             String[] estadoFinal = scanner.nextLine().split(" ");
-            // Armazenados em um Set(conjunto) para facilitar a busca e comparação
             Set<Integer> aceitacao = new HashSet<>();
             for (String estado : estadoFinal) {
                 aceitacao.add(Integer.parseInt(estado));
@@ -77,7 +76,7 @@ public class AFD_Trab {
             // Descição formal do AFD
             System.out.println(BLUE + "\nDESCRIÇÃO FORMAL\n" + RESET);
             System.out.println("E = {" + getEstados(numEstados) + "}");
-            System.out.println("\u03A3= {" + String.join(", ", sigma) + "}");
+            System.out.println("Sigma = {" + String.join(", ", sigma) + "}");
             System.out.println("i = q" + estadoInicial);
             System.out.println("F = {" + getEstadoFinal(aceitacao) + "}");
 
