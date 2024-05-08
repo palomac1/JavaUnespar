@@ -2,7 +2,7 @@ package LOO.Aula24;
 
 import javax.swing.JOptionPane;
 
-public class exc2 {
+public class exc2 { 
     public static void main(String[] args){
         double[] resistencia = new double[4];
         double RE = 0;
@@ -30,3 +30,4 @@ public class exc2 {
         JOptionPane.showMessageDialog(null, "Resistencia fornecida: " + resistencia[0] + ", "+ resistencia[1] + ", " + resistencia[2] + ", " + resistencia[3] + "\nA maior resistencia e: " + maior + "\nA menor resistencia e: " + menor + "\nResistencia Equivalente: " + RE);
     }
 }
+
