@@ -2,6 +2,8 @@ package LFA;
 
 import java.util.*;
 
+//Aceitar cadeia numerica
+
 public class AFD_Trab {
 
     // Códigos ANSI para cores
