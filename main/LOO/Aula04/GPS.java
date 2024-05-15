@@ -3,11 +3,14 @@ public class GPS {
     private String idioma;
     private String rota;
 
+
+    //Construtor default
     public GPS() {
         this.idioma = "null";
         this.rota = "null";
     }
 
+    //Construtor para ligar
     public GPS(String rota) {
         this.idioma = "Português";
         this.rota = rota;
