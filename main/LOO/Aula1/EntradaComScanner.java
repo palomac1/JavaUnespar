@@ -1,4 +1,4 @@
-package LOO.Aula17;
+package LOO.Aula1;
 import java.util.*;
 public class EntradaComScanner {
     public static void main(String args[]){

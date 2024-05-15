@@ -1,4 +1,4 @@
-package LOO.Aula17;
+package LOO.Aula1;
 public class OperadoresAritmeticos {
     public static void main(String[] args) throws Exception {
         // declaracao e inicializacao de variaveis

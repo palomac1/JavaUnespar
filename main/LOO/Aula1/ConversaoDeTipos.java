@@ -1,4 +1,4 @@
-package LOO.Aula17;
+package LOO.Aula1;
 public class ConversaoDeTipos {
     public static void main(String[] args) {
         String s1 = "10";

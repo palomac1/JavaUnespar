@@ -1,4 +1,4 @@
-package LOO.Aula24;
+package LOO.Aula2;
 
 import java.util.Scanner;
 
