@@ -1,4 +1,3 @@
-
 package LFA;
 
 public class UsarAFD {
