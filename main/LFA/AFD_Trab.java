@@ -1,8 +1,5 @@
 package LFA;
-
 import java.util.*;
-
-//Aceitar cadeia numerica
 
 public class AFD_Trab {
 
@@ -11,18 +8,19 @@ public class AFD_Trab {
     public static final String RED = "\033[0;31m";
     public static final String BLUE = "\033[0;34m";
     public static final String PURPLE = "\033[0;35m";
+    public static final String GREEN = "\033[0;92m";
         public static void main(String[] args) {
             
             Scanner scanner = new Scanner(System.in);
     
-            System.out.println(PURPLE + "AUTOMÂTO FINITO DETERMINISTICO" + RESET);
+            System.out.println(PURPLE + " --- AUTOMÂTO FINITO DETERMINISTICO (AFD) --- " + RESET);
 
             // Variável para o número de estados do AFD
             System.out.println("\nDigite o número de estados:");
             int numEstados = Integer.parseInt(scanner.nextLine());
     
             // Variavel para o alfabeto(sigma) do AFD
-            System.out.println("\nDigite o alfabeto, separados por espaços:");
+            System.out.println("\nDigite o alfabeto (separados por espaços):");
             String[] sigma = scanner.nextLine().split(" "); // Divide em matriz
     
             // Variavel para o estado inicial do AFD
@@ -45,22 +43,29 @@ public class AFD_Trab {
             }
     
             // Preenche as transições da tabela
-            System.out.println(BLUE + "\nTRANSIÇÕES" + RESET);
+            System.out.println(BLUE + "\n---TRANSIÇÕES --" + RESET);
             System.out.println(RED + "\nOBS: Caso não exista uma transição, insira -1" + RESET);
-            System.out.println("\nDigite as transições para cada simbolo");
-             // Percorre cada estado e o preenche de acordo com o caractere que o usuário informa
             for (int estado = 0; estado < numEstados; estado++) {
-                System.out.println("\nEstado q" + estado + ", digite a transição:");
-                //Verifica o conjunto de caracteres que pode ser aceito atraves de um loop e armazena o próximo estado na matriz de transição
                 for (int simboloIndex = 0; simboloIndex < sigma.length; simboloIndex++) {
-                    System.out.print("Para símbolo '" + sigma[simboloIndex] + "': ");
-                    int novoEstado = Integer.parseInt(scanner.nextLine());
-                    transicoes[estado][simboloIndex] = novoEstado;
+                    while (true) {
+                        System.out.print("\nEstado q" + estado + " para símbolo '" + sigma[simboloIndex] + "': ");
+                        try {
+                            int novoEstado = Integer.parseInt(scanner.nextLine());
+                            if (novoEstado < -1 || novoEstado >= numEstados) {
+                                System.out.println(RED + "Estado " + novoEstado + " inválido. Deve estar entre -1 e " + (numEstados - 1) + "." + RESET);
+                                continue;
+                            }
+                            transicoes[estado][simboloIndex] = novoEstado;
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println(RED + "Entrada inválida. Por favor, insira um número inteiro." + RESET);
+                        }
+                    }
                 }
             }
     
             // Exibe a tabela de transição 
-            System.out.println(BLUE + "\nTABELA DE TRANSIÇÕES\n" + RESET);
+            System.out.println(BLUE + "\n --- TABELA DE TRANSIÇÕES --- \n" + RESET);
             System.out.print("    ");
             for (String simbolo : sigma) {
                 System.out.print(" " + simbolo);
@@ -76,16 +81,19 @@ public class AFD_Trab {
             }
 
             // Descição formal do AFD
-            System.out.println(BLUE + "\nDESCRIÇÃO FORMAL\n" + RESET);
+            System.out.println(BLUE + "\n --- DESCRIÇÃO FORMAL --- \n" + RESET);
             System.out.println("E = {" + getEstados(numEstados) + "}");
             System.out.println("Sigma = {" + String.join(", ", sigma) + "}");
             System.out.println("i = q" + estadoInicial);
             System.out.println("F = {" + getEstadoFinal(aceitacao) + "}");
 
+            System.out.println(BLUE + "\n --- TESTAR CADEIA --- " + RESET);
+
+
             // Loop para verificar várias cadeias, até o usuário sair
             while (true) {
                 // Lê a cadeia de entrada 
-                System.out.println("\nInforme uma cadeia (Digite 'sair' para fechar o programa):");
+                System.out.println("\n-Informe uma cadeia (Digite 'sair' para fechar o programa):");
                 String cadeia = scanner.nextLine();
                 //Fecha o programa caso o usuário digite "sair"
                 if (cadeia.equalsIgnoreCase("sair")) {
@@ -111,7 +119,7 @@ public class AFD_Trab {
                     // Não realiza a transição caso não tenha encontrado o próximo estado para aquele símbolo
                     int proximoEstado = transicoes[estadoAtual][simboloIndex];
                     if (proximoEstado == -1) {
-                        System.out.println("Transição indefinida para símbolo '" + simbolo + "' a partir do estado q" + estadoAtual);
+                        System.out.println(RED + "\nTransição indefinida para símbolo '" + simbolo + "' a partir do estado q" + estadoAtual + "." + RESET);
                         rejeitado = true;
                         break;
                     }
@@ -123,11 +131,11 @@ public class AFD_Trab {
 
                 // Verifica se o estadoAtual está nos estados de aceitação
                 if (rejeitado) {
-                    System.out.println("Cadeia rejeitada.");
+                    System.out.println(RED + "\nCadeia rejeitada." + RESET);
                 } else if (aceitacao.contains(estadoAtual)) {
-                    System.out.println("Aceita.");
+                    System.out.println(GREEN + "\nAceita." + RESET);
                 } else {
-                    System.out.println("Não aceita.");
+                    System.out.println(RED +"\nNão aceita." + RESET);
                 }
             }
     
