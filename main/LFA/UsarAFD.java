@@ -9,7 +9,7 @@ public class UsarAFD {
         // Ler entradas para configurar o AFD
         afd.leEntradas();
 
-        // Exibir as tabela de transição e descrição formal
+        // Exibir a tabela de transição e a descrição formal
         afd.tabelaTransicaoDescricao();
 
         // Testar caracteres 
