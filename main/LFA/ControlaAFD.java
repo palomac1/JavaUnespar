@@ -15,7 +15,7 @@ public class ControlaAFD implements AFD {
  
      // Atributos da classe
      private int numEstados; // Número de estados
-     private String[] sigma; // Alfabeto
+     private String[] alfabeto; // Alfabeto
      private int estadoInicial; // Estado inicial
      private Set<Integer> aceitaFinal; // Conjunto de estados finais
      private int[][] transicoes; // Matriz
@@ -36,17 +36,6 @@ public class ControlaAFD implements AFD {
          System.out.println("\nDigite o número de estados:");
          numEstados = lerInteiroPositivo();
  
-         // Variavel para o alfabeto(sigma) do AFD
-         System.out.println("\nDigite o alfabeto (separados por espaços):");
-         sigma = scanner.nextLine().split(" "); //Divide-as em simbolos
-
-        // Valida o alfabeto inserido
-        if (!validarAlfabeto(sigma)) {
-            System.out.println(RED + "Erro: Alfabeto inválido. Símbolos permitidos: letras minúsculas e números." + RESET);
-            leEntradas(); // Solicita novamente a entrada do alfabeto
-            return;
-        }
- 
          // Variavel para o estado inicial do AFD
          System.out.println("\nDigite o estado inicial:");
          estadoInicial = Integer.parseInt(scanner.nextLine());
@@ -58,9 +47,22 @@ public class ControlaAFD implements AFD {
          for (String estado : estadoFinal) {
              aceitaFinal.add(Integer.parseInt(estado)); // Converte e adiciona os estados finais ao conjunto
          }
+
+         // Variavel para o alfabeto(sigma) do AFD
+         System.out.println("\nDigite o alfabeto (separados por espaços):");
+         System.out.println("\nObs: são permitidos apenas letras minúsculas e números.");
+
+         alfabeto = scanner.nextLine().split(" "); //Divide-as em simbolos
+
+        // Valida o alfabeto inserido
+        if (!validarAlfabeto(alfabeto)) {
+            System.out.println(RED + "Erro: Alfabeto inválido. Símbolos permitidos: letras minúsculas e números." + RESET);
+            leEntradas(); // Solicita novamente a entrada do alfabeto
+            return;
+        }
  
          // Cria a matriz da tabela de transições
-         transicoes = new int[numEstados][sigma.length];
+         transicoes = new int[numEstados][alfabeto.length];
          // Inicializa as transições com (-1), indicando que é indefinida
          for (int[] linha : transicoes) {
              Arrays.fill(linha, -1);
@@ -68,13 +70,13 @@ public class ControlaAFD implements AFD {
  
         // Preenchimento das transições - São validadas e definidas na matriz
         System.out.println(BLUE + "\n---TRANSIÇÕES --" + RESET);
-        System.out.println(RED + "\nOBS: Caso não exista uma transição, insira -1" + RESET);
+        System.out.println(RED + "\nPreencha as transições a seguir (Apenas números inteiros):" + RESET);
          
         // Percorre todos os stados e simbolos do alfabeto
         for (int estado = 0; estado < numEstados; estado++) {
-            for (int simboloIndex = 0; simboloIndex < sigma.length; simboloIndex++) {
+            for (int simboloIndex = 0; simboloIndex < alfabeto.length; simboloIndex++) {
                 while (true) {
-                    System.out.print("\nEstado q" + estado + " para símbolo '" + sigma[simboloIndex] + "': ");
+                    System.out.print("\nq" + estado + " para '" + alfabeto[simboloIndex] + "': ");
                     try {
                         int novoEstado = Integer.parseInt(scanner.nextLine()); 
 
@@ -98,7 +100,7 @@ public class ControlaAFD implements AFD {
      public void tabelaTransicaoDescricao() {
          System.out.println(BLUE + "\n --- TABELA DE TRANSIÇÕES --- \n" + RESET);
          System.out.print("    ");
-         for (String simbolo : sigma) {
+         for (String simbolo : alfabeto) {
              System.out.print(" " + simbolo);
          }
  
@@ -108,7 +110,7 @@ public class ControlaAFD implements AFD {
          for (int estado = 0; estado < numEstados; estado++) {
              System.out.print("q" + estado + " ");
              //Percorre todos os símbolos do alfabeto
-             for (int simboloIndex = 0; simboloIndex < sigma.length; simboloIndex++) {
+             for (int simboloIndex = 0; simboloIndex < alfabeto.length; simboloIndex++) {
                 // Se transição = '-1', então exiba um 'x'
                  System.out.print(" " + (transicoes[estado][simboloIndex] == -1 ? RED + "x" + RESET : "q" + transicoes[estado][simboloIndex]));
              }
@@ -118,7 +120,7 @@ public class ControlaAFD implements AFD {
          // Descição formal do AFD
          System.out.println(BLUE + "\n --- DESCRIÇÃO FORMAL --- \n" + RESET);
          System.out.println("E = {" + getEstados(numEstados) + "}");
-         System.out.println("Sigma = {" + String.join(", ", sigma) + "}");
+         System.out.println("Sigma = {" + String.join(", ", alfabeto) + "}");
          System.out.println("i = q" + estadoInicial);
          System.out.println("F = {" + getEstadoFinal(aceitaFinal) + "}");
      }
@@ -129,7 +131,7 @@ public class ControlaAFD implements AFD {
  
          // Loop para verificar várias cadeias, até o usuário sair ou testar um novo AFD
         while (true) {
-            System.out.println("\n-Informe uma cadeia (Digite 'sair' para fechar o programa ou 'novo' para testar um novo AFD):");
+            System.out.println("\n-Informe uma cadeia a ser testada (Digite 'sair' para fechar o programa ou 'novo' para testar um novo AFD):");
             String cadeia = scanner.nextLine();
 
             // Fecha o programa caso o usuário digite "sair"
@@ -149,7 +151,7 @@ public class ControlaAFD implements AFD {
             for (int posicao = 0; posicao < cadeia.length(); posicao++) {
                 char simbolo = cadeia.charAt(posicao);
                 // Retorna o índice do item na lista, se não for encontrado retorna -1
-                int simboloIndex = Arrays.asList(sigma).indexOf(String.valueOf(simbolo));
+                int simboloIndex = Arrays.asList(alfabeto).indexOf(String.valueOf(simbolo));
 
                 // Se o símbolo for diferente do alfabeto informado, então o símbolo não pertence ao alfabeto
                 if (simboloIndex == -1) {
@@ -174,9 +176,9 @@ public class ControlaAFD implements AFD {
             if (cadeiaRejeitada) {
                 System.out.println(RED + "\nCadeia rejeitada." + RESET); // Não aceita durante a transição
             } else if (aceitaFinal.contains(estadoAtual)) {
-                System.out.println(GREEN + "\nResultado: Cadeia aceita." + RESET); // Se o estado atual está no conjunto de estados finais
+                System.out.println(GREEN + "\nResultado: Cadeia aceita pelo AFD." + RESET); // Se o estado atual está no conjunto de estados finais
             } else {
-                System.out.println(RED + "\nResultado: Cadeia não aceita." + RESET);
+                System.out.println(RED + "\nResultado: Cadeia não aceita pelo AFD." + RESET);
             }
         }
 
