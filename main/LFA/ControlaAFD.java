@@ -2,6 +2,7 @@ package LFA;
 import java.util.*;
 import java.util.regex.Pattern;
 
+//Classe ControlaAFD implementa a interface AFD
 public class ControlaAFD implements AFD {
 
      // Códigos ANSI para cores
@@ -10,23 +11,26 @@ public class ControlaAFD implements AFD {
      public static final String BLUE = "\033[0;34m";
      public static final String PURPLE = "\033[0;35m";
      public static final String GREEN = "\033[0;92m";
+
  
      // Atributos da classe
-     private int numEstados;
-     private String[] sigma;
-     private int estadoInicial;
-     private Set<Integer> aceitaFinal;
-     private int[][] transicoes;
-     private Scanner scanner;
+     private int numEstados; // Número de estados
+     private String[] sigma; // Alfabeto
+     private int estadoInicial; // Estado inicial
+     private Set<Integer> aceitaFinal; // Conjunto de estados finais
+     private int[][] transicoes; // Matriz
+     private Scanner scanner; //Lê entradas do usuário
  
-     // Metodo construtor
+     // Metodo construtor da classe
      public ControlaAFD() {
-         scanner = new Scanner(System.in);
+         scanner = new Scanner(System.in); 
      }
  
      // Metodo para ler as entradas do usuário
      public void leEntradas() {
-         System.out.println(PURPLE + " --- AUTOMATO FINITO DETERMINISTICO (AFD) --- " + RESET);
+        System.out.println(PURPLE + " --- Linguagens Formais, Autômatos e Computabilidade ---\n  " + RESET);
+        System.out.println("Trabalho de LFA - 1° Bimestre - C.C UNESPAR\n");
+        System.out.println(PURPLE + " --- SIMULADOR DE AUTÔMATO FINITO DETERMINÍSTICO (AFD) --- " + RESET);
  
          // Variável para o número de estados do AFD
          System.out.println("\nDigite o número de estados:");
@@ -34,9 +38,9 @@ public class ControlaAFD implements AFD {
  
          // Variavel para o alfabeto(sigma) do AFD
          System.out.println("\nDigite o alfabeto (separados por espaços):");
-         sigma = scanner.nextLine().split(" ");
+         sigma = scanner.nextLine().split(" "); //Divide-as em simbolos
 
-        // Validação do alfabeto
+        // Valida o alfabeto inserido
         if (!validarAlfabeto(sigma)) {
             System.out.println(RED + "Erro: Alfabeto inválido. Símbolos permitidos: letras minúsculas e números." + RESET);
             leEntradas(); // Solicita novamente a entrada do alfabeto
@@ -49,10 +53,10 @@ public class ControlaAFD implements AFD {
  
          // Variavel para o número de estados finais do AFD
          System.out.println("\nDigite os estados finais (Se houver mais de um, separe por espaços):");
-         String[] estadoFinal = scanner.nextLine().split(" "); // Leitura e divisão da entrada atravês do split
+         String[] estadoFinal = scanner.nextLine().split(" "); // Leitura e divisão da entrada através do split
          aceitaFinal = new HashSet<>(); //Armazena os estados finais.
          for (String estado : estadoFinal) {
-             aceitaFinal.add(Integer.parseInt(estado)); // Converte as substrings para inteiro e adiciona ao conjunto de estados aceitos
+             aceitaFinal.add(Integer.parseInt(estado)); // Converte e adiciona os estados finais ao conjunto
          }
  
          // Cria a matriz da tabela de transições
@@ -62,20 +66,25 @@ public class ControlaAFD implements AFD {
              Arrays.fill(linha, -1);
          }
  
-        // Preenchimento das transições
+        // Preenchimento das transições - São validadas e definidas na matriz
         System.out.println(BLUE + "\n---TRANSIÇÕES --" + RESET);
         System.out.println(RED + "\nOBS: Caso não exista uma transição, insira -1" + RESET);
+         
+        // Percorre todos os stados e simbolos do alfabeto
         for (int estado = 0; estado < numEstados; estado++) {
             for (int simboloIndex = 0; simboloIndex < sigma.length; simboloIndex++) {
                 while (true) {
                     System.out.print("\nEstado q" + estado + " para símbolo '" + sigma[simboloIndex] + "': ");
                     try {
-                        int novoEstado = Integer.parseInt(scanner.nextLine());
+                        int novoEstado = Integer.parseInt(scanner.nextLine()); 
+
+                        // Se o estado inserido for menor que '-1' ou maior ou igual que o total de estados dará erro
                         if (novoEstado < -1 || novoEstado >= numEstados) {
                             System.out.println(RED + "Estado " + novoEstado + " inválido." + RESET);
                             continue;
                         }
-                        transicoes[estado][simboloIndex] = novoEstado;
+                        // Armazena a transição no array na posição correspondente ao estado atual e ao símbolo
+                        transicoes[estado][simboloIndex] = novoEstado; // Define a transição
                         break;
                     } catch (NumberFormatException e) {
                         System.out.println(RED + "Entrada inválida. Por favor, insira um número inteiro." + RESET);
@@ -93,10 +102,14 @@ public class ControlaAFD implements AFD {
              System.out.print(" " + simbolo);
          }
  
+         // For para exibição da tabela
          System.out.println();
+         //Percorre todos os estados
          for (int estado = 0; estado < numEstados; estado++) {
              System.out.print("q" + estado + " ");
+             //Percorre todos os símbolos do alfabeto
              for (int simboloIndex = 0; simboloIndex < sigma.length; simboloIndex++) {
+                // Se transição = '-1', então exiba um 'x'
                  System.out.print(" " + (transicoes[estado][simboloIndex] == -1 ? RED + "x" + RESET : "q" + transicoes[estado][simboloIndex]));
              }
              System.out.println();
@@ -122,9 +135,10 @@ public class ControlaAFD implements AFD {
             // Fecha o programa caso o usuário digite "sair"
             if (cadeia.equalsIgnoreCase("sair")) {
                 break;
+            // Inicializa o programa outra vez caso o usuário digite "novo"
             } else if (cadeia.equalsIgnoreCase("novo")) {
                 leEntradas(); // Testa um novo AFD
-                continue; // Volta para o início do loop para testar uma cadeia no novo AFD
+                continue; // Volta para o início do loop para testar um novo AFD
             }
 
             // Verifica o conjunto de caracteres que pode ser aceito pelo AFD
@@ -158,9 +172,9 @@ public class ControlaAFD implements AFD {
 
             // Verifica se o estadoAtual está nos estados de aceitaFinal
             if (cadeiaRejeitada) {
-                System.out.println(RED + "\nCadeia rejeitada." + RESET);
+                System.out.println(RED + "\nCadeia rejeitada." + RESET); // Não aceita durante a transição
             } else if (aceitaFinal.contains(estadoAtual)) {
-                System.out.println(GREEN + "\nResultado: Cadeia aceita." + RESET);
+                System.out.println(GREEN + "\nResultado: Cadeia aceita." + RESET); // Se o estado atual está no conjunto de estados finais
             } else {
                 System.out.println(RED + "\nResultado: Cadeia não aceita." + RESET);
             }
@@ -169,54 +183,54 @@ public class ControlaAFD implements AFD {
         scanner.close();
      }
 
-        // Método para ler um inteiro positivo
-
+       // Método para ler um inteiro positivo
        private int lerInteiroPositivo() {
+        // Utiliza um while para que isso se repita até obter uma entrada válida
         while (true) {
             try {
                 int valor = Integer.parseInt(scanner.nextLine());
-                if (valor <= 0) {
+                if (valor <= 0) { 
                     System.out.println(RED + "Erro: Digite um número inteiro positivo." + RESET);
-                    continue;
+                    continue; 
                 }
                 return valor;
             } catch (NumberFormatException e) {
+                //  Caso a conversão do valor para inteiro não seja possivel, aparecerá o seguinte erro
                 System.out.println(RED + "Entrada inválida, digite um número inteiro." + RESET);
             }
         }
-    }
- 
-     // Função para obter todos os estados
-     private String getEstados(int numEstados) {
-         StringBuilder estados = new StringBuilder();
-         for (int i = 0; i < numEstados; i++) {
-             if (i > 0) {
-                 estados.append(", ");
-             }
-             estados.append("q").append(i);
-         }
-         return estados.toString();
-     }
- 
-     // Função para obeter os estados finais
-     private String getEstadoFinal(Set<Integer> aceitaFinal) {
-         List<String> estadosFinais = new ArrayList<>();
-         for (int estado : aceitaFinal) {
-             estadosFinais.add("q" + estado);
-         }
-         return String.join(", ", estadosFinais);
-     }
+       }
 
-     // Método para validar se o alfabeto contém apenas letras minúsculas e números
-    private boolean validarAlfabeto(String[] alfabeto) {
+       // Método para validar se o alfabeto contém apenas letras minúsculas e números
+       private boolean validarAlfabeto(String[] alfabeto) {
         for (String simbolo : alfabeto) {
             if (!Pattern.matches("[a-z0-9]", simbolo)) {
                 return false;
             }
         }
         return true;
-    }
-
+       }
+ 
+        // Função para obter todos os estados
+        private String getEstados(int numEstados) {
+         StringBuilder estados = new StringBuilder();
+            for (int i = 0; i < numEstados; i++) {
+                if (i > 0) {
+                    estados.append(", ");
+                }
+                estados.append("q").append(i);
+            }
+            return estados.toString();
+        }
+    
+        // Função para obeter os estados finais em string
+        private String getEstadoFinal(Set<Integer> aceitaFinal) {
+         List<String> estadosFinais = new ArrayList<>();
+            for (int estado : aceitaFinal) {
+                estadosFinais.add("q" + estado);
+            }
+            return String.join(", ", estadosFinais);
+        }
  }
 
 
