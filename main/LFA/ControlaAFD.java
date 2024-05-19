@@ -198,7 +198,7 @@ public class ControlaAFD implements AFD {
                 return valor;
             } catch (NumberFormatException e) {
                 //  Caso a conversão do valor para inteiro não seja possivel, aparecerá o seguinte erro
-                System.out.println(RED + "Entrada inválida, digite um número inteiro." + RESET);
+                System.out.println(RED + "Digite um número inteiro." + RESET);
             }
         }
        }
