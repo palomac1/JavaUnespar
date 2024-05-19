@@ -56,7 +56,7 @@ public class ControlaAFD implements AFD {
 
         // Valida o alfabeto inserido
         if (!validarAlfabeto(alfabeto)) {
-            System.out.println(RED + "Erro: Alfabeto inválido. Símbolos permitidos: letras minúsculas e números." + RESET);
+            System.out.println(RED + "Erro: os símbolos permitido são letras minúsculas e números." + RESET);
             leEntradas(); // Solicita novamente a entrada do alfabeto
             return;
         }
@@ -89,7 +89,7 @@ public class ControlaAFD implements AFD {
                         transicoes[estado][simboloIndex] = novoEstado; // Define a transição
                         break;
                     } catch (NumberFormatException e) {
-                        System.out.println(RED + "Entrada inválida. Por favor, insira um número inteiro." + RESET);
+                        System.out.println(RED + "Entrada inválida, insira um número inteiro." + RESET);
                     }
                 }
             }
@@ -163,7 +163,7 @@ public class ControlaAFD implements AFD {
                 // Não realiza a transição caso não tenha encontrado o próximo estado para aquele símbolo
                 int proximoEstado = transicoes[estadoAtual][simboloIndex];
                 if (proximoEstado == -1) {
-                    System.out.println(RED + "\nTransição indefinida para símbolo '" + simbolo + "' a partir do estado q" + estadoAtual + "." + RESET);
+                    System.out.println(RED + "\nTransição indefinida para '" + simbolo + "' a partir do estado q" + estadoAtual + "." + RESET);
                     cadeiaRejeitada = true;
                     break;
                 }
