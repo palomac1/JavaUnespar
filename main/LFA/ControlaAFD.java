@@ -75,19 +75,20 @@ public class ControlaAFD implements AFD {
         // Percorre todos os stados e simbolos do alfabeto
         for (int estado = 0; estado < numEstados; estado++) {
             for (int simboloIndex = 0; simboloIndex < alfabeto.length; simboloIndex++) {
-                while (true) {
+                boolean entradaValida = false;
+                while (!entradaValida) {
                     System.out.print("\nq" + estado + " para '" + alfabeto[simboloIndex] + "': ");
                     try {
-                        int novoEstado = Integer.parseInt(scanner.nextLine()); 
-
-                        // Se o estado inserido for menor que '-1' ou maior ou igual que o total de estados dará erro
+                        int novoEstado = Integer.parseInt(scanner.nextLine());
+        
+                        // Verifica se o estado inserido é válido
                         if (novoEstado < -1 || novoEstado >= numEstados) {
                             System.out.println(RED + "Estado " + novoEstado + " inválido." + RESET);
-                            continue;
+                        } else {
+                            // Armazena a transição no array na posição correspondente ao estado atual e ao símbolo
+                            transicoes[estado][simboloIndex] = novoEstado;
+                            entradaValida = true;
                         }
-                        // Armazena a transição no array na posição correspondente ao estado atual e ao símbolo
-                        transicoes[estado][simboloIndex] = novoEstado; // Define a transição
-                        break;
                     } catch (NumberFormatException e) {
                         System.out.println(RED + "Entrada inválida, insira um número inteiro." + RESET);
                     }
