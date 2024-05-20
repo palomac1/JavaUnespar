@@ -1,12 +1,12 @@
 package LFA;
 
+ /* Interface que estabelece os métodos entradaUsuario, tabelaTransicaoDescricao 
+ e testarCadeia, necessários para configurar, dar a descrição e testar o AFD */
+
 public interface AFD {
 
-    /* Interface que estabelece os métodos lerEntradas, tabelaTransicaoDescricao 
-    e testarCadeia, necessários para configurar, descrever e testar o AFD */
-
-    void leEntradas();
+    void entradaUsuario();
     void tabelaTransicaoDescricao();
-    void testaCadeia();
+    void testarCadeias();
 }
  

@@ -6,14 +6,14 @@ public class UsarAFD {
         // Cria uma nova instância da classe ControlaAFD e a associa à variável afd do tipo AFD
         AFD afd = new ControlaAFD();
 
-        // Ler entradas para configurar o AFD
-        afd.leEntradas();
+        // Le entradas para configurar o AFD
+        afd.entradaUsuario();
 
         // Exibir a tabela de transição e a descrição formal
         afd.tabelaTransicaoDescricao();
 
         // Testar caracteres 
-        afd.testaCadeia();
+        afd.testarCadeias();
     }
 }
 
