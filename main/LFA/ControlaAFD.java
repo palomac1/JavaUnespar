@@ -193,9 +193,9 @@ public class ControlaAFD implements AFD {
             if (rejeitada) {
                 System.out.println(RED + "\nCadeia rejeitada." + RESET);
             } else if (aceitaFinal.contains(estadoAtual)) {
-                System.out.println(GREEN + "\nCadeia aceita." + RESET);
+                System.out.println(GREEN + "\nResultado: Cadeia aceita pelo AFD." + RESET);
             } else {
-                System.out.println(RED + "\nCadeia não aceita." + RESET);
+                System.out.println(RED + "\nResultado: Cadeia não aceita pelo AFD." + RESET);
             }
         }
 
@@ -214,56 +214,56 @@ public class ControlaAFD implements AFD {
             }
             // Retorna verdadeiro se todos os símbolos forem válidos
             return true;
-    }
+        }
 
-    // Método para ler um estado inicial válido
-    private int lerEstadoInicial(int numEstados) {
-        // Loop para ler o estado inicial
-        while (true) {
-            // Tenta converter a entrada do usuário em um número inteiro
-            try {
-                // Lê o estado inicial
-                int estado = Integer.parseInt(scanner.nextLine());
-                // Verifica se o estado está entre 0 e numEstados - 1
-                if (estado < 0 || estado >= numEstados) {
-                    // Informa ao usuário que o estado inicial é inválido
-                    System.out.println(RED + "O estado inicial deve estar entre 0 e " + (numEstados - 1) + "." + RESET);
-                } else {
-                    // Retorna o estado inicial se for válido
-                    return estado;
+        // Método para ler um estado inicial válido
+        private int lerEstadoInicial(int numEstados) {
+            // Loop para ler o estado inicial
+            while (true) {
+                // Tenta converter a entrada do usuário em um número inteiro
+                try {
+                    // Lê o estado inicial
+                    int estado = Integer.parseInt(scanner.nextLine());
+                    // Verifica se o estado está entre 0 e numEstados - 1
+                    if (estado < 0 || estado >= numEstados) {
+                        // Informa ao usuário que o estado inicial é inválido
+                        System.out.println(RED + "O estado inicial deve estar entre 0 e " + (numEstados - 1) + "." + RESET);
+                    } else {
+                        // Retorna o estado inicial se for válido
+                        return estado;
+                    }
+                    // Se a entrada não for um número inteiro aparece a mensagem de erro
+                } catch (NumberFormatException e) {
+                    System.out.println(RED + "Digite um número inteiro" + RESET);
                 }
-                // Se a entrada não for um número inteiro aparece a mensagem de erro
-            } catch (NumberFormatException e) {
-                System.out.println(RED + "Digite um número inteiro válido." + RESET);
             }
         }
-    }
 
-    // Função para obter todos os estados
-    private String conjuntoEstados(int numEstados) {
-        // Armazena os estados
-        StringBuilder estados = new StringBuilder();
-        // Loop para adicionar cada estado na string
-        for (int i = 0; i < numEstados; i++) {
-            // Adiciona o estado na string
-            if (i > 0) {
-                estados.append(", ");
+        // Função para obter todos os estados
+        private String conjuntoEstados(int numEstados) {
+            // Armazena os estados
+            StringBuilder estados = new StringBuilder();
+            // Loop para adicionar cada estado na string
+            for (int i = 0; i < numEstados; i++) {
+                // Adiciona o estado na string
+                if (i > 0) {
+                    estados.append(", "); // Adiciona vírgula entre os estados
+                }
+                estados.append("q").append(i); // Adiciona o estado
             }
-            estados.append("q").append(i); 
+            // Retorna a string com os estados
+            return estados.toString();
         }
-        // Retorna a string com os estados
-        return estados.toString();
-    }
 
-    // Função para obter os estados finais em string
-    private String conjuntoEstadoFinal(Set<Integer> aceitaFinal) {
-        // Armazena os estados finais
-        List<String> estadosFinais = new ArrayList<>();
-        // Loop para adicionar cada estado final na lista
-        for (int estado : aceitaFinal) {
-            estadosFinais.add("q" + estado);
+        // Função para obter os estados finais em string
+        private String conjuntoEstadoFinal(Set<Integer> aceitaFinal) {
+            // Armazena os estados finais
+            List<String> estadosFinais = new ArrayList<>();
+            // Loop para adicionar cada estado final na lista
+            for (int estado : aceitaFinal) {
+                estadosFinais.add("q" + estado);
+            }
+            // Retorna a lista de estados finais como string
+            return String.join(", ", estadosFinais);
         }
-        // Retorna a lista de estados finais como string
-        return String.join(", ", estadosFinais);
     }
-}
