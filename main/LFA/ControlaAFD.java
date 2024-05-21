@@ -13,7 +13,7 @@ public class ControlaAFD implements AFD {
     public static final String PURPLE = "\033[0;35m";
     public static final String GREEN = "\033[0;92m";
 
-    // Atributos da classe ControlaAFD
+    // Atributos da classe ControlaAFD e métodos da interface AFD
     private int numEstados; // Número de estados
     private String[] alfabeto; // Alfabeto
     private int estadoInicial; // Estado inicial
@@ -37,7 +37,7 @@ public class ControlaAFD implements AFD {
         while (true) {
             // Tenta converter a entrada do usuário em um número inteiro
             try {
-                numEstados = Integer.parseInt(scanner.nextLine());
+                numEstados = Integer.parseInt(scanner.nextLine()); // Lê o número de estados e converte para inteiro
                 // Verifica se o número de estados é positivo
                 if (numEstados <= 0) {
                     System.out.println(RED + "Digite um número inteiro positivo." + RESET);
@@ -51,35 +51,35 @@ public class ControlaAFD implements AFD {
 
         // Estado inicial do AFD
         System.out.println("\nDigite o estado inicial (entre 0 e " + (numEstados - 1) + "):");
-        estadoInicial = lerEstadoInicial(numEstados);
+        estadoInicial = lerEstadoInicial(numEstados); // Lê o estado inicial e verifica se é válido
 
         // Estados finais do AFD
-        System.out.println("\nDigite os estados finais (Se houver mais de um, separe por espaços):");
-        String[] estadoFinal = scanner.nextLine().split(" ");   
+        System.out.println("\nDigite os estados finais (Separe por espaços):");
+        String[] estadoFinal = scanner.nextLine().split(" ");   // Lê os estados finais e separa por espaços
         // Cria um conjunto de estados finais
-        aceitaFinal = new HashSet<>();
+        aceitaFinal = new HashSet<>(); // Cria um conjunto vazio
         // Adiciona os estados finais ao conjunto
-        for (String estado : estadoFinal) {
-            aceitaFinal.add(Integer.parseInt(estado)); 
+        for (String estado : estadoFinal) { // Loop para adicionar cada estado final ao conjunto
+            aceitaFinal.add(Integer.parseInt(estado));  // Adiciona o estado final ao conjunto
         }
 
         // Alfabeto do AFD
-        System.out.println("\nDigite o alfabeto (separados por espaços):");
+        System.out.println("\nDigite o alfabeto:");
         System.out.println("\nObs: apenas letras minúsculas ou números.");
-        alfabeto = scanner.nextLine().split(" ");
+        alfabeto = scanner.nextLine().split(" "); // Lê o alfabeto e separa por espaços
 
         // Valida o alfabeto inserido
         if (!validarAlfabeto(alfabeto)) {
             System.out.println(RED + "Erro: Apenas letras minúsculas ou números." + RESET);
             entradaUsuario();
-            return;
+            return; // Retorna para o início do método
         }
 
         // Cria a matriz de transições
         transicoes = new int[numEstados][alfabeto.length];
         // Preenche a matriz de transições com -1
         for (int[] linha : transicoes) {
-            Arrays.fill(linha, -1);
+            Arrays.fill(linha, -1); // Preenche a linha com -1
         }
 
         // Preenchimento das transições
@@ -93,6 +93,7 @@ public class ControlaAFD implements AFD {
                 // Loop para ter um estado válido
                 while (!entradaValida) {
                     System.out.print("\nq" + estado + " para '" + alfabeto[simboloIndex] + "': ");
+                    // try-catch para verificar se a entrada é um número inteiro, ele lida com execções
                     try {
                         // Lê o estado de transição
                         int novoEstado = Integer.parseInt(scanner.nextLine());
@@ -102,7 +103,7 @@ public class ControlaAFD implements AFD {
                         } else {
                             // Define o estado de transição na matriz
                             transicoes[estado][simboloIndex] = novoEstado;
-                            entradaValida = true;
+                            entradaValida = true; // Define a entrada como válida e sai do loop
                         }
                     } catch (NumberFormatException e) {
                         System.out.println(RED + "Entrada inválida, insira um número inteiro." + RESET);
@@ -146,9 +147,10 @@ public class ControlaAFD implements AFD {
     // Método para testar cadeias de entrada no AFD
     public void testarCadeias() {
         System.out.println(BLUE + "\n --- TESTAR CADEIA --- " + RESET);
+        // Loop para testar várias cadeias e sair quando o usuário desejar
         while (true) {
             System.out.println("\nInforme uma cadeia (ou 'sair' para encerrar, 'novo' para novo AFD):");
-            String cadeia = scanner.nextLine().trim();
+            String cadeia = scanner.nextLine().trim(); // Lê a cadeia de entrada e remove espaços em branco do inicio e final atraves do trim pra depois validar
 
             // Verifica se o usuário deseja sair ou criar um novo AFD
             if ("sair".equalsIgnoreCase(cadeia)) {
@@ -164,23 +166,23 @@ public class ControlaAFD implements AFD {
             // Verifica cada símbolo da cadeia
             for (int i = 0; i < cadeia.length(); i++) {
                 // Pega o símbolo atual
-                char simbolo = cadeia.charAt(i);
+                char simbolo = cadeia.charAt(i); // Pega o caractere na posição i
 
                 // Verifica se o símbolo está no alfabeto
-                if (!Arrays.asList(alfabeto).contains(String.valueOf(simbolo))) {
+                if (!Arrays.asList(alfabeto).contains(String.valueOf(simbolo))) { // Cria uma lista e verifica se o símbolo está no alfabeto
                     System.out.println(RED + "\nErro: símbolo '" + simbolo + "' não pertence ao alfabeto." + RESET);
                     rejeitada = true; 
                     break;
                 }
 
                 // Transição para o próximo estado
-                int simboloIndex = Arrays.asList(alfabeto).indexOf(String.valueOf(simbolo));
+                int simboloIndex = Arrays.asList(alfabeto).indexOf(String.valueOf(simbolo)); // Índice do símbolo no alfabeto e na matriz de transições
                 // Próximo estado com base no símbolo atual
                 int proximoEstado = transicoes[estadoAtual][simboloIndex];
 
                 // Verifica se a transição é indefinida
                 if (proximoEstado == -1) {
-                    System.out.println(RED + "\nErro: Transição indefinida para símbolo '" + simbolo + "' no estado q" + estadoAtual + "." + RESET);
+                    System.out.println(RED + "\nNão há transição para  '" + simbolo + "'q" + estadoAtual + "." + RESET);
                     rejeitada = true;
                     break;
                 }
@@ -206,10 +208,10 @@ public class ControlaAFD implements AFD {
         private boolean validarAlfabeto(String[] alfabeto) {
             // Verifica cada símbolo do alfabeto
             for (String simbolo : alfabeto) {
-                // Verifica se o símbolo é uma letra minúscula ou número
+                // Verifica se o símbolo é uma letra minúscula ou número se não for o retorno é falso
                 if (!Pattern.matches("[a-z0-9]", simbolo)) {
                     // Retorna falso se o símbolo não for válido
-                    return false;
+                    return false; 
                 }
             }
             // Retorna verdadeiro se todos os símbolos forem válidos
