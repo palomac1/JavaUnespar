@@ -1,4 +1,3 @@
-package Física;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,11 +48,11 @@ public class FrearDesviar extends JFrame implements ActionListener {
         velocidadeField = new JTextField();
         inputPanel.add(velocidadeField);
 
-        inputPanel.add(new JLabel("Digite o coeficiente de atrito estático (µ):"));
+        inputPanel.add(new JLabel("Digite o coeficiente de atrito estático (µ) (Ex: 0.40)"));
         atritoEstaticoField = new JTextField();
         inputPanel.add(atritoEstaticoField);
 
-        inputPanel.add(new JLabel("Digite o coeficiente de atrito cinético (µk):"));
+        inputPanel.add(new JLabel("Digite o coeficiente de atrito cinético (µk) (Ex: 0.30)"));
         atritoCineticoField = new JTextField();
         inputPanel.add(atritoCineticoField);
 
