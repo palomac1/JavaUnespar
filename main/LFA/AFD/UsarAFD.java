@@ -1,4 +1,4 @@
-package LFA;
+package LFA.AFD;
 
 public class UsarAFD {
     public static void main(String[] args) {

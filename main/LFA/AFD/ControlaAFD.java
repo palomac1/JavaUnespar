@@ -1,4 +1,4 @@
-package LFA;
+package LFA.AFD;
 
 import java.util.*; // Importa todas as classes do pacote java.util
 import java.util.regex.Pattern; // Importa a classe Pattern do pacote java.util.regex

@@ -1,4 +1,4 @@
-package LFA;
+package LFA.AFD;
 
  /* Interface que estabelece os métodos entradaUsuario, tabelaTransicaoDescricao 
  e testarCadeia, necessários para configurar, dar a descrição e testar o AFD */
