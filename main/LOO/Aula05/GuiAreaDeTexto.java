@@ -17,7 +17,7 @@ public class GuiAreaDeTexto extends JPanel {
         tfCampo = new JTextField();
         taTexto = new JTextArea(5, 20); //desnecessário por causa de setBounds
         taTexto.setEditable(false);
-        String path = "borracha.jpg";
+        String path = "borracha.png";
         btLimpar = new JButton(new ImageIcon(getClass().getResource(path)));
         scrollPane = new JScrollPane(taTexto);
         tfCampo.setBounds(25, 15, 150, 25);
