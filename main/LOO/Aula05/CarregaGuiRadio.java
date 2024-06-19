@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
-public class CarregaRadio {
+
+public class CarregaGuiRadio {
     public static void main(String[] args){
         JFrame frame = new JFrame ("Uso de Radio");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
