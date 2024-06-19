@@ -1,6 +1,6 @@
 import javax.swing.JFrame;
 
-public class CarregaGuiCombol{
+public class CarregaGuiCombo{
     public static void main(String[] args){
         JFrame frame = new JFrame ("Uso de combo");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
