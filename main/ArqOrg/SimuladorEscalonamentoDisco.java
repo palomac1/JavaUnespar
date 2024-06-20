@@ -1,10 +1,10 @@
 package ArqOrg;
 import java.util.*;
 
-public class SimuladorDisco {
+public class SimuladorEscalonamentoDisco {
 
     static class Pedido {
-      int cilindro;
+        int cilindro;
         public Pedido(int cilindro) {
             this.cilindro = cilindro;
         }
@@ -20,12 +20,12 @@ public class SimuladorDisco {
         System.out.println("\nInforme o tamanho do cilindro:");
         int tamanhoCilindro = scanner.nextInt();
     
-        List<Pedido> pedidos = lerPedidos(scanner);
+        List<Pedido> pedidos = lerPedidos(scanner, tamanhoCilindro);
         scanner.close();
     
         final int posicaoInicial = 0;
 
-        System.out.println("==================================================================================");
+        System.out.println("\n==================================================================================");
         System.out.println("Início FCFS");
         System.out.println("==================================================================================");
         FCFS(new ArrayList<>(pedidos), posicaoInicial, tamanhoCilindro);
@@ -34,7 +34,7 @@ public class SimuladorDisco {
         System.out.println("==================================================================================");
         
         List<Pedido> pedidosSSF = new ArrayList<>(pedidos);
-        System.out.println("\n=================================================================================");
+        System.out.println("\n==================================================================================");
         System.out.println("Início SSF");
         System.out.println("==================================================================================");
         SSF(new ArrayList<>(pedidosSSF), posicaoInicial, tamanhoCilindro);
@@ -43,7 +43,7 @@ public class SimuladorDisco {
         System.out.println("==================================================================================");
     }
 
-    static List<Pedido> lerPedidos(Scanner scanner) {
+    static List<Pedido> lerPedidos(Scanner scanner, int tamanhoCilindro) {
         List<Pedido> pedidos = new ArrayList<>();
         System.out.println("\nInforme a quantidade de pedidos de cilindros:");
         int qtdPedidos = scanner.nextInt();
@@ -54,31 +54,30 @@ public class SimuladorDisco {
             int cilindro = scanner.nextInt();
             pedidos.add(new Pedido(cilindro));
         }
-        return pedidos;
-
-       /* System.out.println("\n==========================================================");
+        System.out.println("\n==========================================================");
         System.out.println("Representação inicial do Cilindro:");
         System.out.println("----------------------------------------------------------");
         System.out.print("|| ");
         for (int i = 0; i < tamanhoCilindro; i++) {
             System.out.printf("%2d || ", i + 1);
         }
-
+    
         char[] acessoCilindro = new char[tamanhoCilindro];
         Arrays.fill(acessoCilindro, '-');
-
+    
         System.out.print("\n|| ");
         for (int i = 0; i < tamanhoCilindro; i++) {
             System.out.printf("%2c || ", acessoCilindro[i]);
         }
-
+    
         System.out.println("\n==========================================================");
         System.out.println("\nVetor de Pedidos");
         System.out.println("==========================================================");
         System.out.print("||");
-        for (int i = 0; i < qntdPedidos; i++) {
-            System.out.printf(" %2d ||", vetorPedidos[i]);
-        }  */
+        for (Pedido pedido : pedidos) {
+            System.out.printf(" %2d ||", pedido.cilindro);
+        }  
+        return pedidos;
     }
 
     // Função para calcular FCFS - Ordem
@@ -142,7 +141,6 @@ public class SimuladorDisco {
             } else {
                 System.out.printf("|  |\t");
             }
-            
         }
         System.out.println("\n");
     }
