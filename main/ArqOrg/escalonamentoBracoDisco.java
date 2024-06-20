@@ -1,7 +1,7 @@
 package ArqOrg;
 import java.util.*;
 
-public class EscalonamentoBracoDisco {
+public class escalonamentoBracoDisco {
 
     static class Pedido {
       int cilindro;
