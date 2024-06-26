@@ -17,6 +17,7 @@ public class SimuladorEscalonamentoDisco {
         System.out.println("ALGORITMO DE ESCALONAMENTO DE BRAÇO DE DISCO");
         System.out.println("Atividade 2 - AOC - CCOMP - UNESPAR");
         System.out.println("==================================================================================");
+
         System.out.println("\nInforme o tamanho do cilindro:");
         int tamanhoCilindro = scanner.nextInt();
 
@@ -91,7 +92,7 @@ public class SimuladorEscalonamentoDisco {
 
         for (Pedido pedido : pedidos) {
             marcados.add(pedido.cilindro); // Adiciona o cilindro marcado   
-            mostraRepresentacao(marcados, tamanhoCilindro); // Exibe a representação do cilindro e o acesso
+            mostraRepresentacao(marcados, tamanhoCilindro); // Exibe a representação do cilindro e o acesso se tiver
         }
     }
 

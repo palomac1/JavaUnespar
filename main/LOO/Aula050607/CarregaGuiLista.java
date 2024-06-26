@@ -1,3 +1,5 @@
+package LOO.Aula050607;
+
 import javax.swing.JFrame;
 
 public class CarregaGuiLista{

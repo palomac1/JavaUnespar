@@ -1,3 +1,5 @@
+package LOO.Aula050607;
+
 import java.awt.event.*;
 import javax.swing.*;
 public class GuiDialogoMensagem extends JPanel {
