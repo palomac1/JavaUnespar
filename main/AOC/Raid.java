@@ -12,7 +12,6 @@ public class Raid {
         List<Character> paridade = new ArrayList<>();
         List<Character> discoReconstruido = new ArrayList<>();
 
-
         System.out.println("Digite a frase: ");
         String frase = sc.nextLine();
 
@@ -35,25 +34,27 @@ public class Raid {
         System.out.println("\nRAID 1: ");
         System.out.println("Disco 1: " + frase);
         System.out.println("Disco 2: " + frase);
-        System.out.println(frase);
 
         // RAID 4
         disco1.clear();
         disco2.clear();
+        disco3.clear();
         paridade.clear();
 
         System.out.println("\nRAID 4: ");
         for (int i = 0; i < letras.length; i++) {
-            if (i % 3 == 0) { // Calcula a paridade a cada 3 letras e armazena no disco 3
+            if (i % 3 == 0) { 
                 disco1.add(letras[i]);
             } else if (i % 3 == 1) {
                 disco2.add(letras[i]);
             } else {
                 disco3.add(letras[i]);
-            }
-            if (i % 3 == 2 && i + 2 < letras.length) { // Calcula a paridade a cada 3 letras
                 paridade.add((char) (letras[i - 2] ^ letras[i - 1] ^ letras[i]));
             }
+        }
+
+        if (letras.length % 3 != 0) {
+            paridade.add((char) (letras[letras.length - 1] ^ letras[letras.length - 2]));
         }
 
         System.out.println("Disco 1: " + disco1);
