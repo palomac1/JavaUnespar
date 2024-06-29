@@ -28,14 +28,14 @@ public class Raid {
         }
 
         StringBuilder sbDisco1 = new StringBuilder();
-        for (Character ch : disco1) {
-            sbDisco1.append(ch);
+        for (Character caracter : disco1) {
+            sbDisco1.append(caracter);
         }
         System.out.println("Disco 1: " + sbDisco1.toString());
 
         StringBuilder sbDisco2 = new StringBuilder();
-        for (Character ch : disco2) {
-            sbDisco2.append(ch);
+        for (Character caracter : disco2) {
+            sbDisco2.append(caracter);
         }
         System.out.println("Disco 2: " + sbDisco2.toString());
 
@@ -71,14 +71,14 @@ public class Raid {
         System.out.println("Disco 2: " + sbDisco2.toString());
 
         StringBuilder sbDisco3 = new StringBuilder();
-        for (Character ch : disco3) {
-            sbDisco3.append(ch);
+        for (Character caracter : disco3) {
+            sbDisco3.append(caracter);
         }
         System.out.println("Disco 3: " + sbDisco3.toString());
 
         StringBuilder sbParidade = new StringBuilder();
-        for (Character ch : paridade) {
-            sbParidade.append(ch);
+        for (Character caracter : paridade) {
+            sbParidade.append(caracter);
         }
         System.out.println("Paridade: " + sbParidade.toString());
 
@@ -89,8 +89,8 @@ public class Raid {
         }
 
         StringBuilder sbDiscoReconstruido = new StringBuilder();
-        for (Character ch : discoReconstruido) {
-            sbDiscoReconstruido.append(ch);
+        for (Character caracter : discoReconstruido) {
+            sbDiscoReconstruido.append(caracter);
         }
 
         System.out.println("\nRECONSTRUÇÃO: \nDisco 1: " + sbDisco1.toString());
