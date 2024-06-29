@@ -27,8 +27,17 @@ public class Raid {
             }
         }
 
-        System.out.println("Disco 1: " + disco1);
-        System.out.println("Disco 2: " + disco2);
+        StringBuilder sbDisco1 = new StringBuilder();
+        for (Character ch : disco1) {
+            sbDisco1.append(ch);
+        }
+        System.out.println("Disco 1: " + sbDisco1.toString());
+
+        StringBuilder sbDisco2 = new StringBuilder();
+        for (Character ch : disco2) {
+            sbDisco2.append(ch);
+        }
+        System.out.println("Disco 2: " + sbDisco2.toString());
 
         // RAID 1
         System.out.println("\nRAID 1: ");
@@ -57,17 +66,37 @@ public class Raid {
             paridade.add((char) (letras[letras.length - 1] ^ letras[letras.length - 2]));
         }
 
-        System.out.println("Disco 1: " + disco1);
-        System.out.println("Disco 2: " + disco2);
-        System.out.println("Disco 3: " + disco3);
-        System.out.println("Paridade: " + paridade);
+        
+        System.out.println("Disco 1: " + sbDisco1.toString());
+        System.out.println("Disco 2: " + sbDisco2.toString());
+
+        StringBuilder sbDisco3 = new StringBuilder();
+        for (Character ch : disco3) {
+            sbDisco3.append(ch);
+        }
+        System.out.println("Disco 3: " + sbDisco3.toString());
+
+        StringBuilder sbParidade = new StringBuilder();
+        for (Character ch : paridade) {
+            sbParidade.append(ch);
+        }
+        System.out.println("Paridade: " + sbParidade.toString());
+
 
         for (int i = 0; i < paridade.size(); i++) {
             char valorReconstruido = (char) (disco1.get(i) ^ disco2.get(i) ^ paridade.get(i));
             discoReconstruido.add(valorReconstruido);
         }
 
-        System.out.println("Disco Reconstruído: " + discoReconstruido);
+        StringBuilder sbDiscoReconstruido = new StringBuilder();
+        for (Character ch : discoReconstruido) {
+            sbDiscoReconstruido.append(ch);
+        }
+
+        System.out.println("\nRECONSTRUÇÃO: \nDisco 1: " + sbDisco1.toString());
+        System.out.println("Disco 2: " + sbDisco2.toString());
+        System.out.println("Paridade: " + sbParidade.toString());
+        System.out.println("Disco Reconstruído: " + sbDiscoReconstruido.toString());
 
         sc.close();
     }
