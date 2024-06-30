@@ -83,10 +83,10 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
 
         switch (opcode) {
             case "000001":
-                inst000001(Integer.parseInt(componentesInst[1]));
+                inst000001(Integer.parseInt(componentesInst[1])); // Converte o operando para inteiro e chama a instrução
                 break;
             case "000010":
-                inst000010(Integer.parseInt(componentesInst[1]), Integer.parseInt(componentesInst[2]));
+                inst000010(Integer.parseInt(componentesInst[1]), Integer.parseInt(componentesInst[2])); 
                 break;
             case "000011":
                 inst000011(Integer.parseInt(componentesInst[1]));
@@ -144,18 +144,73 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
 
         System.out.println("==================================================================================");
         System.out.println("CÁLCULO DO ENDEREÇO DA INSTRUÇÃO:");
-        System.out.println("PC: " + PC);
+        System.out.printf("PC: %06d\n", PC);
         System.out.println("\nBUSCANDO A INSTRUÇÃO:");
-        System.out.println("IR <OPCODE>: " + IR);
-        System.out.println("IR <OP1>: " + op1);
-        System.out.println("IR <OP2>: " + op2);
-        System.out.println("\nDECODIFICANDO A INSTRUÇÃO4:");
-        // Implementar lógica para decodificar a instrução, dependendo do IR
+        System.out.println("RI <OPCODE>: " + opcode);
+        System.out.println("RI <OP1>: " + op1);
+        System.out.println("RI <OP2>: " + op2);
+        System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
+        switch (opcode) {
+            case "000001":
+                System.out.println("MBR <- #POS");
+                System.out.println(MBR + " <- " + op1);
+                break;
+            case "000010":
+                System.out.println("#POS <- #DADO");
+                System.out.println(op1 + " <- " + op2);
+                break;
+            case "000011":
+                System.out.println("MBR <- MBR + #POS");
+                System.out.println(MBR + " <- " + MBR + " + " + op1);
+                break;
+            case "000100":
+                System.out.println("MBR <- MBR - #POS");
+                System.out.println(MBR + " <- " + MBR + " - " + op1);
+                break;
+            case "000101":
+                System.out.println("MBR <- MBR * #POS");
+                System.out.println(MBR + " <- " + MBR + " * " + op1);
+                break;
+            case "000110":
+                System.out.println("MBR <- MBR / #POS");
+                System.out.println(MBR + " <- " + MBR + " / " + op1);
+                break;
+            case "000111":
+                System.out.println("JUMP to #LIN");
+                System.out.println("JUMP to " + op1);
+                break;
+            case "001000":
+                System.out.println("JUMP IF Z to #LIN");
+                System.out.println("JUMP IF Z to " + op1);
+                break;
+            case "001001":
+                System.out.println("JUMP IF N to #LIN");
+                System.out.println("JUMP IF N to " + op1);
+                break;
+            case "001010":
+                System.out.println("MBR <- raiz_quadrada(MBR)");
+                System.out.println("MBR <- raiz_quadrada(" + MBR + ")");
+                break;
+            case "001011":
+                System.out.println("MBR <- -MBR");
+                System.out.println("MBR <- -" + MBR);
+                break;
+            case "001111":
+                System.out.println("#POS <- MBR");
+                System.out.println(op1 + " <- " + MBR);
+                break;
+            case "001100":
+                System.out.println("NOP");
+                break;
+            default:
+                System.out.println("OPCODE não reconhecido");
+                break;
+        }
         System.out.println("\nCÁLCULO DO ENDEREÇO DO OPERANDO: ");
         System.out.println("Endereço: " + MAR);
         System.out.println("\nBUSCANDO O OPERANDO NA POSIÇÃO:");
         System.out.println("MAR: " + MAR);
-        System.out.println("\nCÁCULO DO ENDEREÇO DO SEGUNDO OPERANDO: ");
+        System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO: ");
         System.out.println("Endereço: " + MAR);
         System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO: ");
         System.out.println("MAR: " + MAR);
@@ -166,9 +221,10 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("\nARMAZENANDO O OPERANDO: ");
         System.out.println("MAR: " + MAR);
         System.out.println("O VALOR FOI ARMAZENADO!");
-       System.out.println("==================================================================================");
+        System.out.println("==================================================================================");
     }
 
+    // Método principal para executar o ciclo de instrução e suas operações 
     public static void main(String[] args) {
         ControlaCicloInstrucao controlador = new ControlaCicloInstrucao();
         controlador.entradaUsuario();
@@ -176,7 +232,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         controlador.executarTodasInstrucoes();
     }
 
-    // Métodos de instrução específicos
+    // Métodos de instrução específicos para cada operação
     public void inst000001(int pos) {
         MBR = pos;
         updateFlags();
@@ -245,4 +301,3 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         flagNegativa = (MBR < 0);
     }
 }
-

@@ -1,4 +1,4 @@
-package AOC;
+package AOC.AtividadesSala;
 
 import java.util.*;
 

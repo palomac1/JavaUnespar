@@ -1,5 +1,8 @@
 package AOC.CicloDeInstrucao;
 
+/* Interface para representar o ciclo de instrução e suas operações, onde cada operação é uma instrução e cada instrução
+é um método, assim podemos apenas chamar o método para executar a instrução desejada e exibir o ciclo de instrução */
+
 public interface CicloInstrucao {
      
     void entradaUsuario(); // Reccebe a entrada do usuário por meio de um scanner e armazena as instruções em uma lista de strings chamada instrucoes
