@@ -19,9 +19,9 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         while (true) {
             System.out.print("\nDigite o código da instrução: ");
             String instrucao = scanner.nextLine();
-            if (instrucao.equals("4")) { 
+            if (instrucao.equals("4")) {
                 break;
-            } 
+            }
 
             String op1 = "", op2 = "";
             if (!instrucao.equals("001010") && !instrucao.equals("001011") && !instrucao.equals("001100")) {
@@ -78,7 +78,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         String[] componentesInst = instrucao.split(" ");
         String opcode = componentesInst[0];
 
-        IR = Integer.parseInt(opcode); // Atualiza o registrador IR com o opcode atual
+        IR = Integer.parseInt(opcode, 2); // Atualiza o registrador IR com o opcode atual em formato binário
         MAR = 0; // Limpa o MAR antes de cada operação
 
         switch (opcode) {
@@ -86,7 +86,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 inst000001(Integer.parseInt(componentesInst[1])); // Converte o operando para inteiro e chama a instrução
                 break;
             case "000010":
-                inst000010(Integer.parseInt(componentesInst[1]), Integer.parseInt(componentesInst[2])); 
+                inst000010(Integer.parseInt(componentesInst[1]), Integer.parseInt(componentesInst[2]));
                 break;
             case "000011":
                 inst000011(Integer.parseInt(componentesInst[1]));
@@ -131,24 +131,16 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
     public void exibeCiclo() {
         String[] componentesInst = instrucoes.get(PC - 1).split(" "); // Pega a instrução atual e separa os componentes para exibir
         String opcode = componentesInst[0]; // Atualiza o opcode atual com o opcode da instrução atual
-        String op1 = "", op2 = ""; // Limpa os operandos antes de cada execução
-
-        if (!opcode.equals("001010") && !opcode.equals("001011") && !opcode.equals("001100")) {
-            op1 = componentesInst[1];
-            if (!opcode.equals("000001") && !opcode.equals("000011") && !opcode.equals("000100") &&
-                    !opcode.equals("000101") && !opcode.equals("000110") && !opcode.equals("000111") &&
-                    !opcode.equals("001000") && !opcode.equals("001001") && !opcode.equals("001111")) {
-                op2 = componentesInst[2];
-            }
-        }
+        String op1 = componentesInst.length > 1 ? componentesInst[1] : "";
+        String op2 = componentesInst.length > 2 ? componentesInst[2] : "";
 
         System.out.println("==================================================================================");
         System.out.println("CÁLCULO DO ENDEREÇO DA INSTRUÇÃO:");
         System.out.printf("PC: %06d\n", PC);
         System.out.println("\nBUSCANDO A INSTRUÇÃO:");
-        System.out.println("RI <OPCODE>: " + opcode);
-        System.out.println("RI <OP1>: " + op1);
-        System.out.println("RI <OP2>: " + op2);
+        System.out.println("IR <OPCODE>: " + opcode);
+        System.out.println("IR <OP1>: " + op1);
+        System.out.println("IR <OP2>: " + op2);
         System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
         switch (opcode) {
             case "000001":
@@ -188,8 +180,8 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("JUMP IF N to " + op1);
                 break;
             case "001010":
-                System.out.println("MBR <- raiz_quadrada(MBR)");
-                System.out.println("MBR <- raiz_quadrada(" + MBR + ")");
+                System.out.println("MBR <- sqrt(MBR)");
+                System.out.println("MBR <- sqrt(" + MBR + ")");
                 break;
             case "001011":
                 System.out.println("MBR <- -MBR");
@@ -206,25 +198,51 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("OPCODE não reconhecido");
                 break;
         }
-        System.out.println("\nCÁLCULO DO ENDEREÇO DO OPERANDO: ");
-        System.out.println("Endereço: " + MAR);
+        System.out.println("\nCÁLCULO DO ENDEREÇO DO OPERANDO:");
+        System.out.println("Endereço: " + op1);
         System.out.println("\nBUSCANDO O OPERANDO NA POSIÇÃO:");
-        System.out.println("MAR: " + MAR);
-        System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO: ");
-        System.out.println("Endereço: " + MAR);
-        System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO: ");
-        System.out.println("MAR: " + MAR);
-        System.out.println("\nOPERAÇÃO DE DADOS: ");
-        // Implementar a lógica para a operação de dados, dependendo da instrução
-        System.out.println("\nCALCULANDO ENDEREÇO DO OPERANDO:");
-        System.out.println("Endereço: " + MAR);
-        System.out.println("\nARMAZENANDO O OPERANDO: ");
-        System.out.println("MAR: " + MAR);
-        System.out.println("O VALOR FOI ARMAZENADO!");
+        System.out.println("MAR: " + op1);
+        System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO:");
+        System.out.println("Endereço: " + op2);
+        System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO:");
+        System.out.println("MAR: " + op2);
+        System.out.println("\nOPERAÇÃO DE DADOS:");
+
+        if (!opcode.equals("000001")) {
+            System.out.println("VALOR DO MBR: " + MBR);
+            System.out.println("VALOR NA MEMÓRIA: " + memoria[Integer.parseInt(op1)]);
+            System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)]));
+            System.out.println("O VALOR FOI ARMAZENADO!");
+
+            if (!opcode.equals("000011")) {
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + op2);
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + op2 + " = " + (MBR + Integer.parseInt(op2)));
+                System.out.println("O VALOR FOI ARMAZENADO!");
+            }
+            if (!opcode.equals("001111")) {
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO ENDEREÇO APÓS A OPERAÇÃO: " + op1);
+                System.out.println("O VALOR FOI ARMAZENADO!");
+            }
+            if (!opcode.equals("001100")) {
+                System.out.println("ENCERRANDO OPERAÇÃO DE DADOS");
+                System.out.println("OPERAÇÃO FINALIZADA!");
+                System.exit(0);
+            } else {
+                System.out.println("ARMAZENANDO: " + MBR);
+                System.out.println("NA POSIÇÃO: " + op1);
+                System.out.println("\nCALCULANDO ENDEREÇO DO OPERANDO:");
+                System.out.println("Endereço: " + op1);
+                System.out.println("\nARMAZENANDO O OPERANDO:");
+                System.out.println("MAR: " + op1);
+                System.out.println("O VALOR FOI ARMAZENADO!");
+            }
+        }
         System.out.println("==================================================================================");
     }
 
-    // Método principal para executar o ciclo de instrução e suas operações 
+    // Método principal para executar o ciclo de instrução e suas operações
     public static void main(String[] args) {
         ControlaCicloInstrucao controlador = new ControlaCicloInstrucao();
         controlador.entradaUsuario();
