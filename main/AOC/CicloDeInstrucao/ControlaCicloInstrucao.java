@@ -4,23 +4,25 @@ import java.util.*;
 
 // Arrumar para não exibir a manipulação vazia de op2 se não houver
 // Arrumar NOP para ir direto para a operação de dados após decodificar
-// Arrumar o valor de MBR para ser 0 na instrução 000001 - Verificar se está correto a partir do exemplo
+// **Arrumar o valor de MBR para ser 0 na instrução 000001 - Verificar se está correto a partir do exemplo
 // Talvez tenha que zerar o MBR para cada instrução (?)
+// **Verificar se o loop tem q ser infinito
 
 public class ControlaCicloInstrucao implements CicloInstrucao {
 
-    private int PC = 0;
-    private int IR = 0;
-    private int MAR = 0;
-    private int MBR = 0;
-    private boolean flagZero = false;
-    private boolean flagNegativa = false;
-    private int[] memoria = new int[256];
-    private Scanner scanner = new Scanner(System.in);
-    public List<String> instrucoes = new ArrayList<>();
+    private int PC = 0; // Contador de Programa para armazenar a posição da instrução atual
+    private int MBR = 0; // Registrador de Memória de Buffer
+    private boolean flagZero = false; // Flag para verificar se o valor de MBR é zero
+    private boolean flagNegativa = false; // Flag para verificar se o valor de MBR é negativo, usa falso porque o valor inicial de MBR é 0
+    private int[] memoria = new int[256]; // Cria uma memória de 256 posições para armazenar os dados
+    private Scanner scanner = new Scanner(System.in); // Cria um scanner para receber as instruções do usuário
+    public List<String> instrucoes = new ArrayList<>(); // Cria uma lista de instruções para armazenar as instruções do usuário
 
+    // Receve as instruções do usuario e as armazena em uma lista
     public void entradaUsuario() {
-        System.out.println("Digite as instruções do programa (ou '4' para sair):");
+        System.out.println("Digite as instruções do programa (ou '4' para sair da inserção de dados):");
+        /* Loop para receber as instruções do usuário, se ele digitar '4' o loop é interrompido e o programa continua para 
+        que possa voltar ao menu de opções */
         while (true) {
             System.out.print("\nDigite o código da instrução: ");
             String instrucao = scanner.nextLine();
@@ -28,10 +30,13 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 break;
             }
 
-            String op1 = "", op2 = "";
+            // Inicializa os operandos como vazio para não exibir caso não haja nenhum valor
+            String op1 = "", op2 = ""; 
+            // Verifica se a instrução não precisa de um operando
             if (!instrucao.equals("001010") && !instrucao.equals("001011") && !instrucao.equals("001100")) {
                 System.out.print("Digite o primeiro operando: ");
                 op1 = scanner.nextLine();
+                // Verifica se a instrução não precisa de um segundo operando
                 if (!instrucao.equals("000001") && !instrucao.equals("000011") && !instrucao.equals("000100") &&
                     !instrucao.equals("000101") && !instrucao.equals("000110") && !instrucao.equals("000111") &&
                     !instrucao.equals("001000") && !instrucao.equals("001001") && !instrucao.equals("001111")) {
@@ -40,10 +45,11 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 }
             }
 
-            instrucoes.add(instrucao + " " + op1 + " " + op2);
+            instrucoes.add(instrucao + " " + op1 + " " + op2); // Adiciona a instrução com os operandos na lista de instruções
         }
     }
 
+    // Exibe a tabela de instruções 
     public void verInstrucoes() {
         System.out.println("==================================================================================");
         System.out.printf("= INSTRUÇÕES: =\n");
@@ -64,27 +70,28 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.printf("%-10s %-10s %-10s %-25s\n", "001100", "-", "-", "NOP");
         System.out.println("==================================================================================");
 
+        // Exibe as instruções que já foram inseridas pelo usuario e seus operandos
         for (String instrucao : instrucoes) {
+            System.out.println("Instruções que já foram inseridas: ");
             System.out.println(instrucao);
         }
     }
 
+    // Executa todas as instruções armazenadas na lista de instruções e exibe o ciclo de instrução
     public void executarTodasInstrucoes() {
         System.out.println("==================================================================================");
         System.out.println("EXECUTANDO");
-        for (String instrucao : instrucoes) {
-            executaInstrucao(instrucao);
+        for (String instrucao : instrucoes) { // Recebe a instrução da lista de instruções e executa
+            executaInstrucao(instrucao); // Chama o método para executar a instrução
             exibeCiclo();
             System.out.println();
         }
     }
 
+    // Executa a instrução passada como parâmetro e atualiza o IR com o opcode atual para exibir o ciclo de instrução e as suas operações 
     public void executaInstrucao(String instrucao) {
-        String[] componentesInst = instrucao.split(" ");
-        String opcode = componentesInst[0];
-
-        IR = Integer.parseInt(opcode, 2); // Atualiza o registrador IR com o opcode atual em formato binário
-        MAR = 0; // Limpa o MAR antes de cada operação
+        String[] componentesInst = instrucao.split(" "); // Separa a instrução em componentes para pegar o opcode e os operandos e executar a instrução
+        String opcode = componentesInst[0]; // Atualiza o opcode atual com o opcode da instrução futura para executar a instrução correta e exibir o ciclo de instrução
 
         switch (opcode) {
             case "000001":
@@ -136,8 +143,8 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
     public void exibeCiclo() {
         String[] componentesInst = instrucoes.get(PC - 1).split(" "); // Pega a instrução atual e separa os componentes para exibir
         String opcode = componentesInst[0]; // Atualiza o opcode atual com o opcode da instrução atual
-        String op1 = componentesInst.length > 1 ? componentesInst[1] : "";
-        String op2 = componentesInst.length > 2 ? componentesInst[2] : "";
+        String op1 = componentesInst.length > 1 ? componentesInst[1] : ""; // Atualiza o operando 1 atual com o operando 1 da instrução atual 
+        String op2 = componentesInst.length > 2 ? componentesInst[2] : ""; // Atualiza o operando 2 atual com o operando 2 da instrução atual
     
         System.out.println("==================================================================================");
         System.out.println("CÁLCULO DO ENDEREÇO DA INSTRUÇÃO:");
@@ -149,7 +156,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
         switch (opcode) {
             case "000001":
-                System.out.println("MBR <- #POS"); //MBR teria que ser 0, mas está mostrando o msm valor do op1
+                System.out.println("MBR <- #POS"); //MBR teria que ser 0, mas está mostrando o msm valor do op1 (?)
                 System.out.println(MBR + " <- " + op1);
                 break;
             case "000010":
@@ -217,7 +224,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
             case "000001":
                 System.out.println("VALOR DO MBR: " + MBR);
                 System.out.println("VALOR NA MEMÓRIA: " + memoria[Integer.parseInt(op1)]);
-                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)]));
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)])); 
                 System.out.println("O VALOR FOI ARMAZENADO!");
                 break;
             case "001111":
@@ -229,7 +236,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("VALOR DO MBR: " + MBR);
                 // Arrumar op2 para não ser uma string
                 System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
-                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)]));
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)])); // Passa para inteiro e soma
                 System.out.println("O VALOR FOI ARMAZENADO!");
                 break;
             case "001100":
@@ -248,7 +255,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("ARMAZENANDO: " + op2);
                 System.out.println("NA POSIÇÃO: " + op1);
                 System.out.println("\nCALCULANDO ENDEREÇO DO OPERANDO:");
-                System.out.println("Endereço: " + op1);
+                System.out.println("ENDEREÇO: " + op1);
                 System.out.println("\nARMAZENANDO O OPERANDO:");
                 System.out.println("MAR: " + op1);
                 System.out.println("O VALOR FOI ARMAZENADO!");
@@ -271,31 +278,31 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
     // Métodos de instrução específicos para cada operação
     public void inst000001(int pos) {
         MBR = pos;
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst000010(int pos, int dado) {
         memoria[pos] = dado;
     }
 
-    public void inst000011(int pos) { // Teste
+    public void inst000011(int pos) { 
         MBR += memoria[pos];
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst000100(int pos) {
         MBR -= pos;
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst000101(int pos) {
         MBR *= pos;
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst000110(int pos) {
         MBR /= pos;
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst000111(int lin) {
@@ -316,12 +323,12 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
 
     public void inst001010() {
         MBR = (int) Math.sqrt(MBR);
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst001011() {
         MBR = -MBR;
-        updateFlags();
+        atualizaFlags();
     }
 
     public void inst001111(int pos) {
@@ -332,7 +339,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         // NOP
     }
 
-    private void updateFlags() {
+    private void atualizaFlags() {
         flagZero = (MBR == 0);
         flagNegativa = (MBR < 0);
     }

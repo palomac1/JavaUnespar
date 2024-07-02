@@ -7,8 +7,9 @@ public class UsarCicloInstrucao {
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
-        ControlaCicloInstrucao ci = new ControlaCicloInstrucao();
+        ControlaCicloInstrucao ci = new ControlaCicloInstrucao(); // Instancia um objeto da classe ControlaCicloInstrucao para controlar o ciclo de instrução
 
+        // Menu de opções
         do {
             System.out.println("==================================================================================");
             System.out.printf("= OPÇÕES: =\n");
@@ -16,7 +17,7 @@ public class UsarCicloInstrucao {
             System.out.printf("1. INSERIR\n");
             System.out.printf("2. VER INSTRUÇÕES\n");
             System.out.printf("3. EXECUTAR\n");
-            System.out.printf("4. SAIR\n");
+            System.out.printf("4. SAIR DO PROGRAMA\n");
             System.out.println("==================================================================================");
             System.out.printf("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -33,7 +34,7 @@ public class UsarCicloInstrucao {
                     ci.executarTodasInstrucoes();
                     break;
                 case 4:
-                    System.out.println("Sair");
+                    System.out.println("Encerrando!");
                     break;
                 default:
                     System.out.println("Opção inválida!");
