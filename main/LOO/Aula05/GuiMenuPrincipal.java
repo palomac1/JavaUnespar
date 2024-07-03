@@ -7,7 +7,7 @@ public class GuiMenuPrincipal extends JFrame {
     private JMenuBar mnBarra;
     private JMenu mnArquivo, mnExemplos;
     private JMenuItem miSair, miBotao, miAreaDeTexto, miCaixaOpcao, miCombo, miDialogoMensagem, miLabel, miLista, miRadio;
-    private JMenuItem miDialConfirmacao, miDialOpcao, miBarraRolagem, miBarraProg, miFlayLayout3, miGridLayout1, miAbas, miFrameInt, miPedido, miMascara;
+    private JMenuItem miBorderStyle, miBorderStyle2, miDialConfirmacao, miDialOpcao, miBarraRolagem, miBarraProg, miFlayLayout3, miGridLayout1, miAbas, miFrameInt, miPedido, miMascara;
 
     public GuiMenuPrincipal() {
         inicializarComponentes();
@@ -45,6 +45,8 @@ public class GuiMenuPrincipal extends JFrame {
         miFrameInt = new JMenuItem("Frame Interno");
         miPedido = new JMenuItem("Pedido");
         miMascara = new JMenuItem("Mascara");
+        miBorderStyle2 = new JMenuItem("Borda Style 2");
+        miBorderStyle = new JMenuItem("Borda Style");
 
         mnArquivo.add(miSair);
         mnExemplos.add (miBotao);
@@ -65,6 +67,8 @@ public class GuiMenuPrincipal extends JFrame {
         mnExemplos.add(miFrameInt);
         mnExemplos.add(miPedido);
         mnExemplos.add(miMascara);
+        mnExemplos.add(miBorderStyle2);
+        mnExemplos.add(miBorderStyle);
 
         mnBarra.add (mnArquivo);
         mnBarra.add(mnExemplos);
@@ -236,6 +240,24 @@ public class GuiMenuPrincipal extends JFrame {
                 GuiMascara mascara = new GuiMascara();
                 contentPane.removeAll();
                 contentPane.add(mascara);
+                contentPane.validate();
+            }
+        });
+
+        miBorderStyle2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GuiBorderStyle2 border2 = new GuiBorderStyle2();
+                contentPane.removeAll();
+                contentPane.add(border2);
+                contentPane.validate();
+            }
+        });
+
+        miBorderStyle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GuiBorderStyle border = new GuiBorderStyle();
+                contentPane.removeAll();
+                contentPane.add(border);
                 contentPane.validate();
             }
         });

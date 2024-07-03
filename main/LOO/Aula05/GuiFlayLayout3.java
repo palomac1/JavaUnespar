@@ -3,7 +3,8 @@ import javax.swing.*;
 
 public class GuiFlayLayout3 extends JPanel {
     
-    private JButton[] botoes = new JButton[6];
+    // Remove the declaration of the unused field
+    // private JButton[] botoes = new JButton[6];
     public GuiFlayLayout3() {
         
         inicializarComponentes();
