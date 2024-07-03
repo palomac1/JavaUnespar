@@ -3,7 +3,7 @@ package AOC.CicloDeInstrucao;
 import java.util.*;
 
 // Arrumar para não exibir a manipulação vazia de op2 se não houver
-// (Colocar a instrução no lugar correto) - Arrumar o valor de MBR para ser 0 na instrução 000001
+// Arrumar a instrução 000001
 // Verificar o loop infinito, PC
 // Debug e teste unitario
 
@@ -136,6 +136,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("Instrução inválida");
                 break;
         }
+        PC++;
     }
 
     public void exibeCiclo() {
@@ -154,7 +155,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
         switch (opcode) {
             case "000001":
-                System.out.println("MBR <- #POS"); 
+                System.out.println("MBR <- #POS"); //MBR teria que ser 0, mas está mostrando o msm valor do op1 (?)
                 System.out.println(MBR + " <- " + op1);
                 break;
             case "000010":
@@ -206,6 +207,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("ENCERRANDO OPERAÇÃO DE DADOS");
                 System.out.println("OPERAÇÃO FINALIZADA!");
                 System.exit(0); 
+                break;
             default:
                 System.out.println("OPCODE não reconhecido");
                 break;
@@ -214,10 +216,12 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("Endereço: " + op1);
         System.out.println("\nBUSCANDO O OPERANDO NA POSIÇÃO:");
         System.out.println("MAR: " + op1);
-        System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO:");
-        System.out.println("Endereço: " + op2);
-        System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO:");
-        System.out.println("MAR: " + op2);
+        if (!op2.isEmpty()) {
+            System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO:");
+            System.out.println("Endereço: " + op2);
+            System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO:");
+            System.out.println("MAR: " + op2);
+        }
         System.out.println("\nOPERAÇÃO DE DADOS:");
     
         switch (opcode) {
@@ -238,7 +242,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
                 System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)])); // Passa para inteiro e soma
                 System.out.println("O VALOR FOI ARMAZENADO!");
-                break;        
+                break;
             case "000010":
             case "000100":
             case "000101":
