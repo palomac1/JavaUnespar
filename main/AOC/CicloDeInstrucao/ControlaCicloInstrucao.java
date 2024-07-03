@@ -3,10 +3,9 @@ package AOC.CicloDeInstrucao;
 import java.util.*;
 
 // Arrumar para não exibir a manipulação vazia de op2 se não houver
-// Arrumar NOP para ir direto para a operação de dados após decodificar
-// **Arrumar o valor de MBR para ser 0 na instrução 000001 - Verificar se está correto a partir do exemplo
-// Talvez tenha que zerar o MBR para cada instrução (?)
-// **Verificar se o loop tem q ser infinito
+// (Colocar a instrução no lugar correto) - Arrumar o valor de MBR para ser 0 na instrução 000001
+// Verificar o loop infinito, PC
+// Debug e teste unitario
 
 public class ControlaCicloInstrucao implements CicloInstrucao {
 
@@ -32,12 +31,12 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
 
             // Inicializa os operandos como vazio para não exibir caso não haja nenhum valor
             String op1 = "", op2 = ""; 
-            // Verifica se a instrução não precisa de um operando
-            if (!instrucao.equals("001010") && !instrucao.equals("001011") && !instrucao.equals("001100")) {
+            // Verifica se a instrução não precisa de um operando 
+            if (!instrucao.equals("000001") && !instrucao.equals("001010") && !instrucao.equals("001011") && !instrucao.equals("001100")) {
                 System.out.print("Digite o primeiro operando: ");
                 op1 = scanner.nextLine();
                 // Verifica se a instrução não precisa de um segundo operando
-                if (!instrucao.equals("000001") && !instrucao.equals("000011") && !instrucao.equals("000100") &&
+                if (!instrucao.equals("000011") && !instrucao.equals("000100") &&
                     !instrucao.equals("000101") && !instrucao.equals("000110") && !instrucao.equals("000111") &&
                     !instrucao.equals("001000") && !instrucao.equals("001001") && !instrucao.equals("001111")) {
                     System.out.print("Digite o segundo operando: ");
@@ -137,7 +136,6 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("Instrução inválida");
                 break;
         }
-        PC++;
     }
 
     public void exibeCiclo() {
@@ -156,7 +154,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
         switch (opcode) {
             case "000001":
-                System.out.println("MBR <- #POS"); //MBR teria que ser 0, mas está mostrando o msm valor do op1 (?)
+                System.out.println("MBR <- #POS"); 
                 System.out.println(MBR + " <- " + op1);
                 break;
             case "000010":
@@ -204,8 +202,10 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println(op1 + " <- " + MBR);
                 break;
             case "001100":
-                System.out.println("NOP"); // Fazer com a partir daqui vá direto para a operação de dados
-                break;
+                System.out.println("NOP");
+                System.out.println("ENCERRANDO OPERAÇÃO DE DADOS");
+                System.out.println("OPERAÇÃO FINALIZADA!");
+                System.exit(0); 
             default:
                 System.out.println("OPCODE não reconhecido");
                 break;
@@ -238,11 +238,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
                 System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)])); // Passa para inteiro e soma
                 System.out.println("O VALOR FOI ARMAZENADO!");
-                break;
-            case "001100":
-                System.out.println("ENCERRANDO OPERAÇÃO DE DADOS");
-                System.out.println("OPERAÇÃO FINALIZADA!");
-                System.exit(0);
+                break;        
             case "000010":
             case "000100":
             case "000101":
@@ -306,7 +302,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
     }
 
     public void inst000111(int lin) {
-        PC = lin;
+        PC = lin; // lin - 1, verificar indice e se utiliza -1
     }
 
     public void inst001000(int lin) {
