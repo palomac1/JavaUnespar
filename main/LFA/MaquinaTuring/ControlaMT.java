@@ -1,11 +1,7 @@
 package LFA.MaquinaTuring;
 
 import java.util.*;
-import java.util.stream.Stream; // Manipula fluxo de dados de entrada e saída
-
-// Arrumar transições (-1 para X)
-// Arrumar tabela de transições (alinhamento) 
-// Arrumar fita para validar as palavras e exibir a fita final
+import java.util.stream.Stream;
 
 public class ControlaMT implements MT {
 
@@ -20,27 +16,25 @@ public class ControlaMT implements MT {
     private String[] alfabetoAux;
     private int estadoInicial;
     private Set<Integer> aceitaFinal;
-    private Map<String, Transicao> transicoes; // Função da transição
-    private char[] fita; // Array de caracteres
+    private Map<String, Transicao> transicoes;
+    private char[] fita;
     private int cabecote;
     private Scanner scanner;
-    private String marcadorInicio;
-    private String branco;
+    private char marcadorInicio;
+    private char branco;
 
     private class Transicao {
         int novoEstado;
         char simboloAux;
         char direcao;
 
-    // Representa uma transição da maquina de turing
-    Transicao(int novoEstado, char simboloAux, char direcao) {
+        Transicao(int novoEstado, char simboloAux, char direcao) {
             this.novoEstado = novoEstado;
             this.simboloAux = simboloAux;
             this.direcao = direcao;
         }
     }
 
-    // Lê a entrada do usuário
     public ControlaMT() {
         scanner = new Scanner(System.in);
     }
@@ -57,7 +51,7 @@ public class ControlaMT implements MT {
         estadoInicial = lerEstadoInicial(numEstados);
 
         System.out.println("\nDigite os estados finais (Separe por espaços):");
-        aceitaFinal = new HashSet<>(); 
+        aceitaFinal = new HashSet<>();
         for (String estado : scanner.nextLine().split(" ")) {
             aceitaFinal.add(Integer.parseInt(estado));
         }
@@ -69,53 +63,57 @@ public class ControlaMT implements MT {
         alfabetoAux = scanner.nextLine().split(" ");
 
         System.out.println("\nDigite o marcador de ínicio:");
-        marcadorInicio = scanner.nextLine();
+        marcadorInicio = scanner.nextLine().charAt(0);
 
         System.out.println("\nDigite um símbolo branco:");
-        branco = scanner.nextLine();
+        branco = scanner.nextLine().charAt(0);
 
-        transicoes = new HashMap<>(); // Cria uma nova tabela de transições com os estados e símbolos lidos
+        transicoes = new HashMap<>();
 
         System.out.println(BLUE + "\n---TRANSIÇÕES --" + RESET);
         System.out.println(RED + "\nPreencha as transições a seguir:" + RESET);
         System.out.println(RED + "\nOBS: Caso não haja transição, insira X para anular o campo" + RESET);
 
-        String[] todosSimbolos = Stream.concat(Stream.concat(Arrays.stream(alfabeto), Arrays.stream(alfabetoAux)), Stream.of(marcadorInicio, branco)).toArray(String[]::new);
+        String[] todosSimbolos = Stream.concat(Stream.concat(Arrays.stream(alfabeto), Arrays.stream(alfabetoAux)), Stream.of(String.valueOf(marcadorInicio), String.valueOf(branco))).toArray(String[]::new);
 
         for (int estado = 0; estado < numEstados; estado++) {
             for (String simbolo : todosSimbolos) {
                 System.out.print("\nTransição para q" + estado + " lendo '" + simbolo + "': ");
-                System.out.print("\nEstado futuro da transição: ");
-                int novoEstado = Integer.parseInt(scanner.nextLine());
+                String transicaoInput = scanner.nextLine();
+
+                if (transicaoInput.equalsIgnoreCase("X")) {
+                    continue;
+                }
+
+                int novoEstado = Integer.parseInt(transicaoInput);
                 System.out.print("Alfabeto futuro da transição: ");
                 char simboloEscrito = scanner.nextLine().charAt(0);
                 System.out.print("Direção futura da transição (E para esquerda/D para direita): ");
                 char direcao = scanner.nextLine().charAt(0);
 
                 transicoes.put(estado + simbolo, new Transicao(novoEstado, simboloEscrito, direcao));
-            } 
+            }
         }
     }
 
     public void tabelaTransicaoDescricao() {
         System.out.println(BLUE + "\n --- TABELA DE TRANSIÇÕES --- \n" + RESET);
+
         System.out.print("    ");
-
-        String[] todosSimbolos = Stream.concat(Stream.concat(Arrays.stream(alfabeto), Arrays.stream(alfabetoAux)), Stream.of(marcadorInicio, branco)).toArray(String[]::new);
-
+        String[] todosSimbolos = Stream.concat(Stream.concat(Arrays.stream(alfabeto), Arrays.stream(alfabetoAux)), Stream.of(String.valueOf(marcadorInicio), String.valueOf(branco))).toArray(String[]::new);
         for (String simbolo : todosSimbolos) {
-            System.out.print(" " + simbolo);
-        } 
-
+            System.out.printf("%-10s", simbolo);
+        }
         System.out.println();
+
         for (int estado = 0; estado < numEstados; estado++) {
-            System.out.print("q" + estado + " ");
+            System.out.printf("q%-2d ", estado);
             for (String simbolo : todosSimbolos) {
                 Transicao transicao = transicoes.get(estado + simbolo);
                 if (transicao != null) {
-                    System.out.print(" q" + transicao.novoEstado + "/" + transicao.simboloAux + "/" + transicao.direcao);
+                    System.out.printf("q%-2d/%-2c/%c  ", transicao.novoEstado, transicao.simboloAux, transicao.direcao);
                 } else {
-                    System.out.print(" " + RED + "x" + RESET);
+                    System.out.print(RED + "x       " + RESET);
                 }
             }
             System.out.println();
@@ -135,12 +133,22 @@ public class ControlaMT implements MT {
                 continue;
             }
 
+            if (!entrada.startsWith(String.valueOf(marcadorInicio))) {
+                entrada = marcadorInicio + entrada;
+            }
+
             fita = entrada.toCharArray();
             cabecote = 0;
             int estadoAtual = estadoInicial;
             boolean rejeitada = false;
+            boolean palavraAceita = false;
 
-            while (cabecote < fita.length && cabecote >= 0) {
+            while (true) {
+                if (cabecote < 0 || cabecote >= fita.length) {
+                    rejeitada = true;
+                    break;
+                }
+
                 char simboloAtual = fita[cabecote];
                 Transicao transicao = transicoes.get(estadoAtual + String.valueOf(simboloAtual));
 
@@ -149,27 +157,52 @@ public class ControlaMT implements MT {
                     break;
                 }
 
+                System.out.println("Estado atual: q" + estadoAtual);
+                System.out.println("Símbolo atual: " + simboloAtual);
+                System.out.println("Fita: " + new String(fita).trim());
+                System.out.println("Próxima transição: (q" + estadoAtual + "," + simboloAtual + ") -> (q" + transicao.novoEstado + "," + transicao.simboloAux + "," + transicao.direcao + ")");
+                System.out.println("--------------------------------");
+
                 fita[cabecote] = transicao.simboloAux;
                 estadoAtual = transicao.novoEstado;
                 cabecote += (transicao.direcao == 'D' ? 1 : -1);
 
-                if (cabecote < 0 || cabecote >= fita.length) {
-                    rejeitada = true;
+                if (cabecote < 0) {
+                    fita = expandirFita(fita, true);
+                    cabecote = 0;
+                } else if (cabecote >= fita.length) {
+                    fita = expandirFita(fita, false);
+                }
+
+                if (aceitaFinal.contains(estadoAtual)) {
+                    palavraAceita = true;
                     break;
                 }
             }
 
-            System.out.println("Fita final: " + Arrays.toString(fita));
+            System.out.println("Fita final: " + new String(fita).trim());
 
             if (rejeitada) {
                 System.out.println(RED + "\nFita rejeitada." + RESET);
-            } else if (aceitaFinal.contains(estadoAtual)) {
+            } else if (palavraAceita) {
                 System.out.println(GREEN + "\nResultado: Fita aceita pela MT." + RESET);
             } else {
                 System.out.println(RED + "\nResultado: Fita não aceita pela MT." + RESET);
             }
         }
         scanner.close();
+    }
+
+    private char[] expandirFita(char[] fita, boolean expandirEsquerda) {
+        char[] novaFita = new char[fita.length + 1];
+        if (expandirEsquerda) {
+            System.arraycopy(fita, 0, novaFita, 1, fita.length);
+            novaFita[0] = branco;
+        } else {
+            System.arraycopy(fita, 0, novaFita, 0, fita.length);
+            novaFita[novaFita.length - 1] = branco;
+        }
+        return novaFita;
     }
 
     private int lerNumeroPositivo() {
@@ -190,11 +223,11 @@ public class ControlaMT implements MT {
     private int lerEstadoInicial(int numEstados) {
         while (true) {
             try {
-                int estadoInicial = Integer.parseInt(scanner.nextLine());
-                if (estadoInicial < 0 || estadoInicial >= numEstados) {
-                    System.out.println(RED + "Digite um estado inicial entre 0 e " + (numEstados - 1) + "." + RESET);
+                int estado = Integer.parseInt(scanner.nextLine());
+                if (estado < 0 || estado >= numEstados) {
+                    System.out.println(RED + "Estado inicial deve estar entre 0 e " + (numEstados - 1) + "." + RESET);
                 } else {
-                    return estadoInicial;
+                    return estado;
                 }
             } catch (NumberFormatException e) {
                 System.out.println(RED + "Digite um número inteiro." + RESET);
