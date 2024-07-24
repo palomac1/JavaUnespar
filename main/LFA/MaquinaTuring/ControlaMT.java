@@ -31,18 +31,22 @@ public class ControlaMT implements MT {
         scanner = new Scanner(System.in);
     }
     
-    // Classe interna para armazenar o estado atual e o símbolo lido na fita 
+    //**Essa classe interna vai armazenar o estado atual e o símbolo lido na fita, para identificar as transições da maquina
+    // então os metodos equals(que vaai comparar e verificar se os objetos sao do mesmo valor e classe) e o hashCode(que vai gerar um mesmo codigo para os dois atributos
+    // guarantindo que eles tem o mesmo codigo e valor) 
+    // Classe interna para armazenar o estado atual e o símbolo lido na fita (usado para acessar as transições da MT)
     private class ParEstadoSimbolo {
-        int estado;
-        char simbolo;
+        int estado; // Cria uma variável para armazenar o estado atual
+        char simbolo; // Cria uma variável para armazenar o símbolo lido na fita
 
-        // Construtor da classe ParEstadoSimbolo, utilizado para criar um novo par de estado e símbolo 
+        // Construtor da classe ParEstadoSimbolo, utilizado para criar um novo par de estado e símbolo usado para acessar as transições da MT
         ParEstadoSimbolo(int estado, char simbolo) {
             this.estado = estado;
             this.simbolo = simbolo;
         }
 
-        // Sobrescreve o método equals para comparar dois objetos ParEstadoSimbolo e verificar se são iguais 
+        // Sobrescreve(Pois sem ele pode retornar um valor só pra cada instancia, baseado no endereço, isso faz com que valores iguais sejam identificados como coisas diferentes)
+        // o método equals para comparar dois objetos ParEstadoSimbolo e verificar se são iguais 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true; // Verifica se os objetos são iguais
@@ -55,7 +59,7 @@ public class ControlaMT implements MT {
         iguais terão o mesmo código hash para facilitar a comparação */
         @Override
         public int hashCode() {
-            return Objects.hash(estado, simbolo); 
+            return Objects.hash(estado, simbolo); //Usa objects para calcuar o valor hash com base nos estados e símbolos
         }
     }
 
@@ -73,7 +77,6 @@ public class ControlaMT implements MT {
         }
     }
 
-    
     // Método que solicita ao usuário as entradas necessárias para configurar a máquina
     public void entradaUsuario() {
         System.out.println(PURPLE + " --- Linguagens Formais, Autômatos e Computabilidade ---\n  " + RESET);
@@ -114,7 +117,7 @@ public class ControlaMT implements MT {
         // Cria um array com todos os símbolos possíveis da MT (alfabeto, alfabeto auxiliar, marcador de início e branco) para facilitar a leitura das transições 
         String[] todosSimbolos = Stream.concat(Stream.concat(Arrays.stream(alfabeto), Arrays.stream(alfabetoAux)), Stream.of(String.valueOf(marcadorInicio), String.valueOf(branco))).toArray(String[]::new);
 
-        // Para cada estado e símbolo, solicita ao usuário o novo estado, símbolo e direção da transição 
+        // Para cada estado e símbolo, solicita ao usuário o novo estado, alfabeto futuro e direção da transição 
         for (int estado = 0; estado < numEstados; estado++) {
             for (String simbolo : todosSimbolos) {
                 System.out.print("\nTransição para q" + estado + " lendo '" + simbolo + "': ");
@@ -126,13 +129,13 @@ public class ControlaMT implements MT {
                 }
 
                 // Lê o novo estado, símbolo e direção da transição
-                int novoEstado = Integer.parseInt(transicaoInput);
+                int novoEstado = Integer.parseInt(transicaoInput); // Converte o novo estado para inteiro e armazena na variável novoEstado
                 System.out.print("Alfabeto futuro da transição: ");
-                char simboloEscrito = scanner.nextLine().charAt(0);
+                char simboloEscrito = scanner.nextLine().charAt(0); // Lê o símbolo a ser escrito na fita e armazena na variável simboloEscrito
                 System.out.print("Direção futura da transição (E para esquerda/D para direita): ");
                 char direcao = scanner.nextLine().charAt(0); // Lê a direção da transição (E para esquerda, D para direita)
 
-                // Adiciona a transição ao mapa de transições da MT 
+                // Adiciona a transição ao mapa de transições
                 transicoes.put(new ParEstadoSimbolo(estado, simbolo.charAt(0)), new Transicao(novoEstado, simboloEscrito, direcao));
             }
         }
@@ -154,8 +157,7 @@ public class ControlaMT implements MT {
                 continue;  // Volta ao início do loop para testar outra fita
             }
     
-            // Adiciona o marcador de início à fita, caso não esteja presente
-            if (!entrada.startsWith(String.valueOf(marcadorInicio))) {
+            if (!entrada.startsWith(String.valueOf(marcadorInicio))) { //Se a entrada não começar com o marcador de início, adiciona o marcador de início
                 entrada = marcadorInicio + entrada;
             }
     
