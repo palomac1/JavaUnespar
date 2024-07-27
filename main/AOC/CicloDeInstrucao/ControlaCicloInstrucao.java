@@ -2,7 +2,6 @@ package AOC.CicloDeInstrucao;
 
 import java.util.*;
 
-// Arrumar para não exibir a manipulação vazia de op2 se não houver
 // Arrumar a instrução 000001
 // Verificar o loop infinito, PC
 // Debug e teste unitario
