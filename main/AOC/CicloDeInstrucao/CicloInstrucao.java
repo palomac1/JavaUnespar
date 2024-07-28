@@ -22,3 +22,7 @@ public interface CicloInstrucao {
     void executaInstrucao(String instrucao); // Executa a instrução passada como parâmetro 
     void exibeCiclo(); // Exibe o ciclo de instrução
 }
+
+
+
+ 

@@ -2,6 +2,7 @@ package AOC.CicloDeInstrucao;
 
 import java.util.Scanner;
 
+// Classe para usar o ciclo de instrução e realizar as operações de inserir, ver instruções e executar
 public class UsarCicloInstrucao {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -44,3 +45,5 @@ public class UsarCicloInstrucao {
         scanner.close();
     }
 }
+
+

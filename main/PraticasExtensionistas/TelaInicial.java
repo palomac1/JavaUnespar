@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class TelaInicial extends JFrame {
-    private ImageIcon imageIcon1;
-    private JLabel imageLabel;
-    private JButton okButton;
+    private ImageIcon fundoInicialGif;
+    private JLabel fundoInicial;
+    private JButton instBotao;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -12,7 +14,8 @@ public class TelaInicial extends JFrame {
                 TelaInicial frame = new TelaInicial();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(500, 500); // Definir o tamanho da janela
-                Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
+                Dimension tela = Toolkit.getDefaultToolkit().getScreenSize(); 
+                // Centralizar a janela na tela
                 frame.setLocation((tela.width - frame.getSize().width) / 2,
                         (tela.height - frame.getSize().height) / 2);
                 frame.setVisible(true);
@@ -30,42 +33,42 @@ public class TelaInicial extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os componentes
 
         String path1 = "FundoInicial.gif";
-        imageIcon1 = new ImageIcon(getClass().getResource(path1));
+        fundoInicialGif = new ImageIcon(getClass().getResource(path1));
 
-        if (imageIcon1.getIconWidth() != -1) { // Verificar se a imagem foi carregada corretamente
-            imageLabel = new JLabel(imageIcon1);
-            imageLabel.setHorizontalAlignment(JLabel.CENTER);
-            imageLabel.setVerticalAlignment(JLabel.CENTER);
+        if (fundoInicialGif.getIconWidth() != -1) { // Verificar se a imagem foi carregada corretamente
+            fundoInicial = new JLabel(fundoInicialGif);
+            fundoInicial.setHorizontalAlignment(JLabel.CENTER);
+            fundoInicial.setVerticalAlignment(JLabel.CENTER);
 
             JPanel imagePanel = new JPanel();
             imagePanel.setLayout(new BorderLayout());
             imagePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Adiciona margens ao painel de imagem
-            imagePanel.setBackground(Color.BLACK); // Define o fundo do painel de imagem como preto
-            imagePanel.add(imageLabel, BorderLayout.CENTER);
+            imagePanel.setBackground(Color.BLACK); // Fundo do painel de imagem
+            imagePanel.add(fundoInicial, BorderLayout.CENTER);
 
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.gridwidth = 1;
-            gbc.gridheight = 1;
-            gbc.weightx = 1.0;
-            gbc.weighty = 1.0;
-            gbc.anchor = GridBagConstraints.CENTER;
-            add(imagePanel, gbc);
+            gbc.gridx = 0; // Painel de imagem na horizontal
+            gbc.gridy = 0;  // Painel de imagem na vertical
+            gbc.gridwidth = 1; // Largura do painel de imagem
+            gbc.gridheight = 1; // Altura do painel de imagem
+            gbc.weightx = 1.0; // Peso do painel de imagem na horizontal
+            gbc.weighty = 1.0; // Peso do painel de imagem na vertical
+            gbc.anchor = GridBagConstraints.CENTER; // Alinhamento do painel de imagem
+            add(imagePanel, gbc); // Adiciona o painel de imagem à janela
         } else {
             System.out.println("Imagem não encontrada: " + path1);
         }
 
-     // Define o fundo da janela como preto
+        // Define o fundo da janela como preto
         getContentPane().setBackground(Color.BLACK);
 
-        // Botão 'Iniciar'
-        okButton = new JButton("INICIAR"); 
-        okButton.setFont(new Font("Space Mono", Font.BOLD, 20)); // Define a fonte do texto do botão
-        okButton.setPreferredSize(new Dimension(600, 200)); // Define tamanho maior do botão
-        okButton.setBackground(new Color(128, 0, 128)); // Define a cor do botão para roxo
-        okButton.setForeground(Color.WHITE); // Define a cor do texto do botão para branco
-        okButton.setBorderPainted(false); // Remove a borda ao redor do texto
-        okButton.setFocusPainted(false); // Remove a borda de foco ao redor do texto
+        // Botão 'INSTRUÇÕES'
+        instBotao = new JButton("INSTRUÇÕES");
+        instBotao.setFont(new Font("Space Mono", Font.BOLD, 20)); // Define a fonte do texto do botão
+        instBotao.setPreferredSize(new Dimension(600, 200)); // Define tamanho maior do botão
+        instBotao.setBackground(new Color(128, 0, 128)); // Define a cor do botão para roxo
+        instBotao.setForeground(Color.WHITE); // Define a cor do texto do botão para branco
+        instBotao.setBorderPainted(false); // Remove a borda ao redor do texto
+        instBotao.setFocusPainted(false); // Remove a borda de foco ao redor do texto
 
         gbc.gridx = 0; // Posição do botão na horizontal
         gbc.gridy = 1; // Posição do botão na vertical (abaixo do GIF)
@@ -75,8 +78,15 @@ public class TelaInicial extends JFrame {
         gbc.weighty = 1.0; // Peso do botão na vertical
         gbc.insets = new Insets(5, 0, 0, 0); // Espaço acima do botão
         gbc.anchor = GridBagConstraints.CENTER;
-        add(okButton, gbc);
+        add(instBotao, gbc);
 
-        okButton.addActionListener(e -> System.exit(0)); // Fecha a aplicação quando o botão é clicado
+        // Chama a tela de instruções ao clicar no botão 'INSTRUÇÕES'
+        instBotao.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TelaInstrucoes instrucoes = new TelaInstrucoes();
+                instrucoes.setVisible(true);
+            }
+        });
     }
 }
