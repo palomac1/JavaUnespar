@@ -40,10 +40,10 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         }
     }
 
-    // Tabela para mostrar as intruções e depois para mostrar as instruções e os operandos inseridos pelo usuário
+    // Tabela para mostrar as instruções e depois para mostrar as instruções e os operandos inseridos pelo usuário
     public void verInstrucoes() {
         System.out.println("==================================================================================");
-        System.out.printf("= INSTRUÇÕES: =\n");
+        System.out.println("= INSTRUÇÕES: =");
         System.out.println("==================================================================================");
         System.out.printf("%-10s %-10s %-10s %-25s\n", "COD", "OP1", "OP2", "RESULTADOS");
         System.out.printf("%-10s %-10s %-10s %-25s\n", "000001", "#POS", "-", "MBR <- #POS");
@@ -85,341 +85,245 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         String[] componentesInst = instrucao.split(" ");
         String opcode = componentesInst[0]; // Obtém o opcode da instrução
 
-      try{
-         switch (opcode) {
+        try {
+            switch (opcode) {
+                case "000001":
+                    if (componentesInst.length > 1) {
+                        int pos = Integer.parseInt(componentesInst[1]);
+                        inst000001(pos);
+                    } else {
+                        System.out.println("Instrução inválida: Falta o operando.");
+                    }
+                    break;
+                case "000010":
+                    if (componentesInst.length > 2) {
+                        int pos = Integer.parseInt(componentesInst[1]);
+                        int dado = Integer.parseInt(componentesInst[2]);
+                        inst000010(pos, dado);
+                    } else {
+                        System.out.println("Instrução inválida: Faltam operandos.");
+                    }
+                    break;
+                case "000011":
+                    if (componentesInst.length > 1) inst000011(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "000100":
+                    if (componentesInst.length > 1) inst000100(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "000101":
+                    if (componentesInst.length > 1) inst000101(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "000110":
+                    if (componentesInst.length > 1) inst000110(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "000111":
+                    if (componentesInst.length > 1) inst000111(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "001000":
+                    if (componentesInst.length > 1) inst001000(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "001001":
+                    if (componentesInst.length > 1) inst001001(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "001010":
+                    inst001010();
+                    break;
+                case "001011":
+                    inst001011();
+                    break;
+                case "001111":
+                    if (componentesInst.length > 1) inst001111(Integer.parseInt(componentesInst[1]));
+                    break;
+                case "001100":
+                    inst001100();
+                    break;
+                default:
+                    System.out.println("Instrução inválida");
+                    break;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Formato inválido: " + e.getMessage());
+        }
+        PC++;
+    }
+
+    // Método para exibir o ciclo de instrução específico para cada opcode
+    public void exibeCiclo() {
+        // Verifica se o PC está dentro do intervalo de instruções
+        if (PC - 1 < 0 || PC - 1 >= instrucoes.size()) {
+            System.out.println("Instrução fora do intervalo!");
+            return;
+        }
+
+        String instrucao = instrucoes.get(PC - 1); // Obtém a instrução atual
+        String[] componentesInst = instrucao.split(" ");
+        String opcode = componentesInst[0];
+        String op1 = componentesInst.length > 1 ? componentesInst[1] : ""; // Atualiza o operando 1 atual com o operando 1 da instrução atual 
+        String op2 = componentesInst.length > 2 ? componentesInst[2] : ""; // Atualiza o operando 2 atual com o operando 2 da instrução atual
+        // Exibe o ciclo de instrução detalhado
+        System.out.println("==================================================================================");
+        System.out.println("CÁLCULO DO ENDEREÇO DA INSTRUÇÃO:");
+        System.out.printf("PC: %06d\n", PC);
+        System.out.println("\nBUSCANDO A INSTRUÇÃO:");
+        System.out.println("IR <OPCODE>: " + opcode);
+        System.out.println("IR <OP1>: " + op1);
+        System.out.println("IR <OP2>: " + op2);
+        System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
+        
+        // Exibe os passos do ciclo de instrução específico para cada opcode
+        switch (opcode) {
             case "000001":
-                if (componentesInst.length > 1) {
-                    int pos = Integer.parseInt(componentesInst[1]);
-                    inst000001(pos);
-                } else {
-                    System.out.println("Instrução inválida: Falta o operando.");
-                }
+                System.out.println(" MBR <- #POS");
+                System.out.println(MBR + " <- " + op1);
                 break;
-             case "000010":
-                if (componentesInst.length > 2) {
-                    int pos = Integer.parseInt(componentesInst[1]);
-                    int dado = Integer.parseInt(componentesInst[2]);
-                    inst000010(pos, dado);
-                } else {
-                    System.out.println("Instrução inválida: Faltam operandos.");
-                }
-            break;
+            case "000010":
+                System.out.println(" POS <- #DADO");
+                System.out.println(op1 + " <- " + op2);
+                break;
             case "000011":
-                if (componentesInst.length > 1) inst000011(Integer.parseInt(componentesInst[1]));
+                System.out.println("  MBR <- MBR + #POS");
+                System.out.println ("MBR <- " + MBR + " + " + op1);
                 break;
             case "000100":
-                if (componentesInst.length > 1) inst000100(Integer.parseInt(componentesInst[1]));
+                System.out.println("MBR <- MBR - #POS");
+                System.out.println(MBR + " <- " + MBR + " - " + op1);
                 break;
             case "000101":
-                if (componentesInst.length > 1) inst000101(Integer.parseInt(componentesInst[1]));
+                System.out.println("MBR <- MBR * #POS");
+                System.out.println(MBR + " <- " + MBR + " * " + op1);
                 break;
             case "000110":
-                if (componentesInst.length > 1) inst000110(Integer.parseInt(componentesInst[1]));
+                System.out.println(" MBR <- MBR / #POS");
+                System.out.println(MBR + " <- " + MBR + " / " + op1);
                 break;
             case "000111":
-                if (componentesInst.length > 1) inst000111(Integer.parseInt(componentesInst[1]));
+                System.out.println("JUMP to #LIN");
+                System.out.println("JUMP TO <- " + op1);
                 break;
             case "001000":
-                if (componentesInst.length > 1) inst001000(Integer.parseInt(componentesInst[1]));
+                System.out.println("JUMP IF Z to #LIN");
+                System.out.println("JUMP IF Z TO <- " + op1);
                 break;
             case "001001":
-                if (componentesInst.length > 1) inst001001(Integer.parseInt(componentesInst[1]));
+                System.out.println("JUMP IF N to #LIN");
+                System.out.println("JUMP IF N TO <- " + op1);
                 break;
             case "001010":
-                inst001010();
+                System.out.println("MBR <- sqrt(MBR)");
+                System.out.println(MBR + " <- sqrt(" + MBR + ")");
                 break;
             case "001011":
-                inst001011();
+                System.out.println("MBR <- -MBR");
+                System.out.println(MBR + " <- -" + MBR);
                 break;
             case "001111":
-                if (componentesInst.length > 1) inst001111(Integer.parseInt(componentesInst[1]));
+                System.out.println("#POS <- MBR");
+                System.out.println(op1 + " <- " + MBR);
                 break;
             case "001100":
-                inst001100();
+                System.out.println("NOP");
+                System.out.println("ENCERRANDO OPERAÇÃO DE DADOS");
+                System.out.println("OPERAÇÃO FINALIZADA!");
+                System.exit(0);
                 break;
             default:
                 System.out.println("Instrução inválida");
                 break;
         }
-    } catch(NumberFormatException e){ 
-        System.out.println("Erro: Formato inválido: " + e.getMessage());
-    }
-        PC++;
-    }
 
-    // Método para exibir o ciclo de instrução específico para cada opcode
-    // Método para exibir o ciclo de instrução específico para cada opcode
-public void exibeCiclo() {
-    // Verifica se o PC está dentro do intervalo de instruções
-    if (PC - 1 < 0 || PC - 1 >= instrucoes.size()) {
-        System.out.println("Instrução fora do intervalo!");
-        return;
-    }
+        System.out.println("\nCÁLCULO DO ENDEREÇO DO OPERANDO:");
+        System.out.println("Endereço: " + op1);
+        System.out.println("\nBUSCANDO O OPERANDO NA POSIÇÃO:");
+        System.out.println("MAR: " + op1);
+        // Apenas para a instrução 000010 que possui 2 operandos
+        if (!op2.isEmpty()) {
+            System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO:");
+            System.out.println("Endereço: " + op2);
+            System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO:");
+            System.out.println("MAR: " + op2);
+        }
+        System.out.println("\nOPERAÇÃO DE DADOS:");
 
-    String instrucao = instrucoes.get(PC - 1); // Obtém a instrução atual
-    String[] componentesInst = instrucao.split(" "); // Divide a instrução em partes
-    String opcode = componentesInst.length > 0 ? componentesInst[0] : ""; // Obtém o opcode da instrução
-    String op1 = componentesInst.length > 1 ? componentesInst[1] : ""; // Verifica se há o primeiro operando
-    String op2 = componentesInst.length > 2 ? componentesInst[2] : ""; // Verifica se há o segundo operando
-
-    System.out.println("==================================================================================");
-    System.out.println("CÁLCULO DO ENDEREÇO DA INSTRUÇÃO:");
-    System.out.printf("PC: %06d\n", PC);
-    System.out.println("\nBUSCANDO A INSTRUÇÃO:");
-    System.out.println("IR <OPCODE>: " + opcode);
-    System.out.println("IR <OP1>: " + op1);
-    System.out.println("IR <OP2>: " + op2);
-    System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
-    switch (opcode) {
-        case "000001":
-            if (!op1.isEmpty()) {
-                try {
-                    int endereco = Integer.parseInt(op1);
-                    if (endereco >= 0 && endereco < memoria.length) {
-                        MBR = memoria[endereco];
-                        System.out.println("MBR <- MEMÓRIA[" + endereco + "]");
-                        System.out.println("MBR <- " + MBR);
-                    } else {
-                        System.out.println("Endereço fora do intervalo da memória!");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Formato do endereço inválido!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "000010":
-            if (!op1.isEmpty() && !op2.isEmpty()) {
-                try {
-                    int pos = Integer.parseInt(op1);
-                    int dado = Integer.parseInt(op2);
-                    if (pos >= 0 && pos < memoria.length) {
-                        memoria[pos] = dado;
-                        System.out.println("#POS <- #DADO");
-                        System.out.println("memoria[" + pos + "] <- " + dado);
-                    } else {
-                        System.out.println("Endereço fora do intervalo da memória!");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Formato do endereço ou dado inválido!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        // Repete o mesmo padrão para outras instruções
-        case "000011":
-            if (!op1.isEmpty()) {
-                int endereco = Integer.parseInt(op1);
-                if (endereco >= 0 && endereco < memoria.length) {
-                    MBR += memoria[endereco];
-                    System.out.println("MBR <- MBR + MEMÓRIA[" + endereco + "]");
-                    System.out.println("MBR <- " + MBR);
-                } else {
-                    System.out.println("Endereço fora do intervalo da memória!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "000100":
-            if (!op1.isEmpty()) {
-                int endereco = Integer.parseInt(op1);
-                if (endereco >= 0 && endereco < memoria.length) {
-                    MBR -= memoria[endereco];
-                    System.out.println("MBR <- MBR - MEMÓRIA[" + endereco + "]");
-                    System.out.println("MBR <- " + MBR);
-                } else {
-                    System.out.println("Endereço fora do intervalo da memória!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "000101":
-            if (!op1.isEmpty()) {
-                int endereco = Integer.parseInt(op1);
-                if (endereco >= 0 && endereco < memoria.length) {
-                    MBR *= memoria[endereco];
-                    System.out.println("MBR <- MBR * MEMÓRIA[" + endereco + "]");
-                    System.out.println("MBR <- " + MBR);
-                } else {
-                    System.out.println("Endereço fora do intervalo da memória!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "000110":
-            if (!op1.isEmpty()) {
-                int endereco = Integer.parseInt(op1);
-                if (endereco >= 0 && endereco < memoria.length) {
-                    if (memoria[endereco] != 0) {
-                        MBR /= memoria[endereco];
-                        System.out.println("MBR <- MBR / MEMÓRIA[" + endereco + "]");
-                        System.out.println("MBR <- " + MBR);
-                    } else {
-                        System.out.println("Divisão por zero!");
-                    }
-                } else {
-                    System.out.println("Endereço fora do intervalo da memória!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "000111":
-            if (!op1.isEmpty()) {
-                int linha = Integer.parseInt(op1);
-                System.out.println("JUMP to " + linha);
-                // Ajuste do PC para a linha especificada
-                PC = linha;
-                if (PC < 0 || PC >= instrucoes.size()) {
-                    System.out.println("Endereço fora do intervalo das instruções!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "001000":
-            if (!op1.isEmpty()) {
-                int linha = Integer.parseInt(op1);
-                if (flagZero) {
-                    System.out.println("JUMP IF Z to " + linha);
-                    PC = linha;
-                    if (PC < 0 || PC >= instrucoes.size()) {
-                        System.out.println("Endereço fora do intervalo das instruções!");
-                    }
-                } else {
-                    System.out.println("A condição Z não foi satisfeita!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "001001":
-            if (!op1.isEmpty()) {
-                int linha = Integer.parseInt(op1);
-                if (flagNegativa) {
-                    System.out.println("JUMP IF N to " + linha);
-                    PC = linha;
-                    if (PC < 0 || PC >= instrucoes.size()) {
-                        System.out.println("Endereço fora do intervalo das instruções!");
-                    }
-                } else {
-                    System.out.println("A condição N não foi satisfeita!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "001010":
-            MBR = (int) Math.sqrt(MBR);
-            System.out.println("MBR <- sqrt(" + MBR + ")");
-            break;
-        case "001011":
-            MBR = -MBR;
-            System.out.println("MBR <- -" + MBR);
-            break;
-        case "001111":
-            if (!op1.isEmpty()) {
-                int pos = Integer.parseInt(op1);
-                if (pos >= 0 && pos < memoria.length) {
-                    memoria[pos] = MBR;
-                    System.out.println("#POS <- MBR");
-                    System.out.println("memoria[" + pos + "] <- " + MBR);
-                } else {
-                    System.out.println("Endereço fora do intervalo da memória!");
-                }
-            } else {
-                System.out.println("Instrução inválida");
-            }
-            break;
-        case "001100":
-            System.out.println("NOP");
-            System.out.println("ENCERRANDO OPERAÇÃO DE DADOS");
-            System.out.println("OPERAÇÃO FINALIZADA!");
-            System.exit(0);
-            break;
-        default:
-            System.out.println("OPCODE não reconhecido");
-            break;
-    }
-
-    System.out.println("\nCÁLCULO DO ENDEREÇO DO OPERANDO:");
-    System.out.println("Endereço: " + op1);
-    System.out.println("\nBUSCANDO O OPERANDO NA POSIÇÃO:");
-    System.out.println("MAR: " + op1);
-    if (!op2.isEmpty()) {
-        System.out.println("\nCÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO:");
-        System.out.println("Endereço: " + op2);
-        System.out.println("\nBUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO:");
-        System.out.println("MAR: " + op2);
-    }
-    System.out.println("\nOPERAÇÃO DE DADOS:");
-
-    // Adiciona operações para outros códigos de operação conforme necessário
-    switch (opcode) {
-        case "000001":
-            if (!op1.isEmpty()) {
+        switch (opcode) {
+            case "000001":
+                System.out.println("EXECUTANDO OPERAÇÃO");
                 System.out.println("VALOR DO MBR: " + MBR);
-                System.out.println("VALOR NA MEMÓRIA: " + memoria[Integer.parseInt(op1)]);
-            }
-            break;
-        case "000011":
-            // Atualiza a flag de zero
-            flagZero = MBR == 0;
-            System.out.println("Flag Z (Zero): " + flagZero);
-            // Atualiza a flag negativa
-            flagNegativa = MBR < 0;
-            System.out.println("Flag N (Negativa): " + flagNegativa);
-            break;
-        case "000100":
-            // Atualiza a flag de zero
-            flagZero = MBR == 0;
-            System.out.println("Flag Z (Zero): " + flagZero);
-            // Atualiza a flag negativa
-            flagNegativa = MBR < 0;
-            System.out.println("Flag N (Negativa): " + flagNegativa);
-            break;
-        case "000101":
-            // Atualiza a flag de zero
-            flagZero = MBR == 0;
-            System.out.println("Flag Z (Zero): " + flagZero);
-            // Atualiza a flag negativa
-            flagNegativa = MBR < 0;
-            System.out.println("Flag N (Negativa): " + flagNegativa);
-            break;
-        case "000110":
-            // Atualiza a flag de zero
-            flagZero = MBR == 0;
-            System.out.println("Flag Z (Zero): " + flagZero);
-            // Atualiza a flag negativa
-            flagNegativa = MBR < 0;
-            System.out.println("Flag N (Negativa): " + flagNegativa);
-            break;
-        default:
-            break;
-    }
-
-    System.out.println("IR <ENDEREÇO DO OPERANDO>: " + op1);
-    System.out.println("MEMÓRIA[" + op1 + "]: " + (op1.isEmpty() ? "N/A" : memoria[Integer.parseInt(op1)]));
-    System.out.println("PC <- PC + 1");
-    System.out.println("PC: " + (PC + 1));
-    System.out.println("==================================================================================");
-}
-
-    
-    // Implementação dos métodos das instruções
-    public void inst000001(int pos) {
-        if (pos >= 0 && pos < memoria.length) { // Verifica se o endereço está dentro do intervalo da memória
-            MBR = memoria[pos];
-        } else {
-            System.out.println("Erro: Endereço fora do intervalo da memória.");
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            case "001111":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO ENDEREÇO APÓS A OPERAÇÃO: " + MBR);
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            case "000011":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " + " + memoria[Integer.parseInt(op1)] + " = " + (MBR + memoria[Integer.parseInt(op1)])); // Passa para inteiro e soma
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            // Unico com 2 operandos
+            case "000010":
+                System.out.println("ARMAZENANDO: " + op2);
+                System.out.println("NA POSIÇÃO: " + op1);
+                System.out.println("\nCALCULANDO ENDEREÇO DO OPERANDO:");
+                System.out.println("ENDEREÇO: " + op1);
+                System.out.println("\nARMAZENANDO O OPERANDO:");
+                System.out.println("MAR: " + op1);
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            case "000100":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " - " + memoria[Integer.parseInt(op1)] + " = " + (MBR - memoria[Integer.parseInt(op1)])); // Passa para inteiro e subtrai
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            case "000101":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " * " + memoria[Integer.parseInt(op1)] + " = " + (MBR * memoria[Integer.parseInt(op1)])); // Passa para inteiro e multiplica
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            case "000110":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO CONTEÚDO NA POSIÇÃO: " + memoria[Integer.parseInt(op1)]);
+                if (memoria[Integer.parseInt(op1)] != 0) {
+                    System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: " + MBR + " / " + memoria[Integer.parseInt(op1)] + " = " + (MBR / memoria[Integer.parseInt(op1)])); // Passa para inteiro e divide
+                    System.out.println("O VALOR FOI ARMAZENADO!");
+                } else {
+                    System.out.println("Erro: Divisão por zero.");
+                }
+                break;
+            case "000111":
+                System.out.println("JUMP to #LIN");
+                System.out.println("JUMP TO <- " + op1);
+                break;
+            case "001000":
+                System.out.println("JUMP IF Z to #LIN");
+                System.out.println("JUMP IF Z TO <- " + op1);
+                break;
+            case "001001":
+                System.out.println("JUMP IF N to #LIN");
+                System.out.println("JUMP IF N TO <- " + op1);
+                break;
+            case "001010":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: sqrt(" + MBR + ") = " + (int) Math.sqrt(MBR)); // Calcula a raiz quadrada
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            case "001011":
+                System.out.println("VALOR DO MBR: " + MBR);
+                System.out.println("VALOR DO MBR APÓS A OPERAÇÃO: -" + MBR + " = " + (-MBR)); // Calcula o valor negativo
+                System.out.println("O VALOR FOI ARMAZENADO!");
+                break;
+            default:
+                break;
         }
     }
-    
+
+    public void inst000001(int pos) {
+        MBR = memoria[pos];
+        verificaFlags();
+    }
 
     public void inst000010(int pos, int dado) {
         memoria[pos] = dado;
@@ -427,52 +331,52 @@ public void exibeCiclo() {
 
     public void inst000011(int pos) {
         MBR += memoria[pos];
-        atualizaFlags();
+        verificaFlags();
     }
 
     public void inst000100(int pos) {
         MBR -= memoria[pos];
-        atualizaFlags();
+        verificaFlags();
     }
 
     public void inst000101(int pos) {
         MBR *= memoria[pos];
-        atualizaFlags();
+        verificaFlags();
     }
 
     public void inst000110(int pos) {
         if (memoria[pos] != 0) {
             MBR /= memoria[pos];
+            verificaFlags();
         } else {
             System.out.println("Erro: Divisão por zero.");
         }
-        atualizaFlags();
     }
 
     public void inst000111(int lin) {
-        PC = lin - 1; // Subtrai 1 para compensar o incremento no método executaInstrucao
+        PC = lin - 1; // Define o PC para a linha especificada (ajuste necessário devido ao incremento de PC no final)
     }
 
     public void inst001000(int lin) {
         if (flagZero) {
-            PC = lin - 1;
+            PC = lin - 1; // Define o PC para a linha especificada (ajuste necessário devido ao incremento de PC no final)
         }
     }
 
     public void inst001001(int lin) {
         if (flagNegativa) {
-            PC = lin - 1;
+            PC = lin - 1; // Define o PC para a linha especificada (ajuste necessário devido ao incremento de PC no final)
         }
     }
 
     public void inst001010() {
         MBR = (int) Math.sqrt(MBR);
-        atualizaFlags();
+        verificaFlags();
     }
 
     public void inst001011() {
         MBR = -MBR;
-        atualizaFlags();
+        verificaFlags();
     }
 
     public void inst001111(int pos) {
@@ -480,11 +384,11 @@ public void exibeCiclo() {
     }
 
     public void inst001100() {
-        // No Operation (NOP)
+        // No Operation
     }
 
-    // Método para atualizar as flags de Zero e Negativa
-    private void atualizaFlags() {
+    // Método para verificar as flags Zero e Negativa
+    public void verificaFlags() {
         flagZero = (MBR == 0);
         flagNegativa = (MBR < 0);
     }
