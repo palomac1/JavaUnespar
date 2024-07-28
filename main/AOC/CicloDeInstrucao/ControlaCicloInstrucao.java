@@ -2,6 +2,8 @@ package AOC.CicloDeInstrucao;
 
 import java.util.*;
 
+// ver mbr
+
 public class ControlaCicloInstrucao implements CicloInstrucao {
 
     private int PC = 0; // Contador de Programa para armazenar a posição da instrução atual
@@ -21,10 +23,10 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
             if (instrucao.equals("4")) {
                 break;
             }
-
+    
             // Verifica se a instrução requer operando(s) e solicita ao usuário que insira o(s) operando(s) se necessário
             String op1 = "", op2 = ""; 
-            if (!instrucao.equals("000001") && !instrucao.equals("001010") && !instrucao.equals("001011") && !instrucao.equals("001100")) {
+            if (!instrucao.equals("001010") && !instrucao.equals("001011") && !instrucao.equals("001100")) {
                 System.out.print("Digite o primeiro operando: ");
                 op1 = scanner.nextLine();
                 if (!instrucao.equals("000011") && !instrucao.equals("000100") &&
@@ -34,7 +36,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                     op2 = scanner.nextLine();
                 }
             }
-
+    
             // Adiciona a instrução à lista de instruções com os operandos, se houver
             instrucoes.add(instrucao + " " + op1 + " " + op2);
         }
@@ -167,7 +169,9 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("\nBUSCANDO A INSTRUÇÃO:");
         System.out.println("IR <OPCODE>: " + opcode);
         System.out.println("IR <OP1>: " + op1);
-        System.out.println("IR <OP2>: " + op2);
+        if(!op2.isEmpty()){
+            System.out.println("IR <OP2>: " + op2);
+        }
         System.out.println("\nDECODIFICANDO A INSTRUÇÃO:");
         
         // Exibe os passos do ciclo de instrução específico para cada opcode
@@ -184,7 +188,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 System.out.println("  MBR <- MBR + #POS");
                 System.out.println ("MBR <- " + MBR + " + " + op1);
                 break;
-            case "000100":
+            case "000100": 
                 System.out.println("MBR <- MBR - #POS");
                 System.out.println(MBR + " <- " + MBR + " - " + op1);
                 break;
@@ -210,7 +214,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                 break;
             case "001010":
                 System.out.println("MBR <- sqrt(MBR)");
-                System.out.println(MBR + " <- sqrt(" + MBR + ")");
+                System.out.println(MBR + " <- sqrt(" + op1 + ")");
                 break;
             case "001011":
                 System.out.println("MBR <- -MBR");
@@ -384,7 +388,6 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
     }
 
     public void inst001100() {
-        // No Operation
     }
 
     // Método para verificar as flags Zero e Negativa

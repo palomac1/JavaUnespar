@@ -6,7 +6,7 @@ import javax.swing.*;
 public class PetShop {
     public static void main(String[] args) {
         while (true) {
-            String[] options = {"Anfíbios", "Invertebrados", "Mamíferos", "Peixes", "Répteis", "Sair"};
+            String[] options = {"Anfíbios", "Invertebrados", "Mamíferos", "Peixes", "Répteis", "Aves", "Sair"};
             int choice = JOptionPane.showOptionDialog(null, "Escolha uma categoria de animais para começar:", "Jogo de Adivinhação",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 
@@ -27,6 +27,9 @@ public class PetShop {
                     Repteis.repteis();
                     break;
                 case 5:
+                    Aves.main(args);
+                    break;
+                case 6:
                     System.exit(0);
                 default:
                     break;
