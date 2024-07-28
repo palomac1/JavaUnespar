@@ -3,6 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+// Classe que exibe a tela inicial do jogo, é aqui que deve ser feita a execução do jogo
+// então não testem a execução do jogo na classe PetShop.java ou em outra classe
+
 public class TelaInicial extends JFrame {
     private ImageIcon fundoInicialGif;
     private JLabel fundoInicial;
@@ -27,11 +30,13 @@ public class TelaInicial extends JFrame {
         inicializarComponentes();
     }
 
+    // Inicializa os componentes da tela inicial do jogo para 
     private void inicializarComponentes() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os componentes
 
+        // Carrega o GIF de fundo da tela inicial
         String path1 = "FundoInicial.gif";
         fundoInicialGif = new ImageIcon(getClass().getResource(path1));
 

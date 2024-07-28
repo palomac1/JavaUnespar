@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+// Classe que exibe as instruções do jogo e chama a classe PetShop ao clicar em 'JOGAR'
+
 public class TelaInstrucoes extends JFrame {
     private ImageIcon fundoInstGif;
     private JLabel fundoInst;
@@ -22,10 +24,11 @@ public class TelaInstrucoes extends JFrame {
     }
 
     private void inicializarComponentes() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        setLayout(new GridBagLayout()); 
+        GridBagConstraints gbc = new GridBagConstraints(); // Define o layout da janela
         gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os componentes
 
+        // Carrega o GIF de fundo da tela de instruções
         String path2 = "FundoInst.gif"; // Caminho para o novo GIF
         fundoInstGif = new ImageIcon(getClass().getResource(path2));
 
@@ -40,12 +43,12 @@ public class TelaInstrucoes extends JFrame {
             imagePanel.setBackground(Color.BLACK); // Define o fundo do painel de imagem como preto
             imagePanel.add(fundoInst, BorderLayout.CENTER); // Adiciona o GIF ao painel de imagem
 
-            gbc.gridx = 0;
-            gbc.gridy = 0;
+            gbc.gridx = 0; // Posição do GIF na horizontal
+            gbc.gridy = 0; // Posição do GIF na vertical
             gbc.gridwidth = 1;
             gbc.gridheight = 1;
             gbc.weightx = 1.0;
-            gbc.weighty = 1.0;
+            gbc.weighty = 1.0; 
             gbc.anchor = GridBagConstraints.CENTER;
             add(imagePanel, gbc);
         } else {
@@ -74,7 +77,7 @@ public class TelaInstrucoes extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         add(jogarBotao, gbc);
 
-        // Adiciona ação ao botão 'JOGAR'
+        // Chama a classe do PetShop ao clicar em'JOGAR'
         jogarBotao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +86,7 @@ public class TelaInstrucoes extends JFrame {
             }
         });
     }
-
+  
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

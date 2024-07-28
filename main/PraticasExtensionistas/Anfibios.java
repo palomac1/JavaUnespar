@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.UIManager;
 
 public class Anfibios {
-
     public static void main(String[] args) {
         if (Sim("Possuo uma pele sensível?")) {
             if (Sim("Já apareci em um filme da Disney?")) {

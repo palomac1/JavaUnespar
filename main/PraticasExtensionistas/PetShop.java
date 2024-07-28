@@ -1,5 +1,8 @@
 import javax.swing.*;
 
+// Classe principal que chama as classes de cada categoria de animais e exibe o menu principal
+// Sujeito a mudanças conforme a implementação do jogo
+
 public class PetShop {
     public static void main(String[] args) {
         while (true) {
