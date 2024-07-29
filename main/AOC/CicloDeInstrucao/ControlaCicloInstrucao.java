@@ -1,6 +1,6 @@
 package AOC.CicloDeInstrucao;
 
-import java.util.*;
+import java.util.*; // Importa todas as classes do pacote java.util
 public class ControlaCicloInstrucao implements CicloInstrucao {
 
     private int PC = 0; // Contador de Programa para armazenar a posição da instrução atual
@@ -145,7 +145,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         } catch (NumberFormatException e) {
             System.out.println("Erro: Formato inválido: " + e.getMessage());
         }
-        PC++;
+        PC++; // Incrementa o PC para a próxima instrução para que o ciclo de instrução possa continuar
     }
 
     // Método para exibir o ciclo de instrução específico para cada opcode

@@ -1,17 +1,27 @@
 package AOC.CicloDeInstrucao;
-import java.util.Scanner;
+import java.util.Scanner; // Importa a classe Scanner para receber a entrada do usuário
 
 // Classe para usar o ciclo de instrução e realizar as operações de inserir, ver instruções e executar
 public class UsarCicloInstrucao {
+
+    // Tabela de cores ANSI
+    public static final String RESET = "\033[0m";
+    public static final String PURPLE = "\033[0;35m";
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
         ControlaCicloInstrucao ci = new ControlaCicloInstrucao(); // Instancia um objeto da classe ControlaCicloInstrucao para controlar o ciclo de instrução
 
+        System.out.println(PURPLE + "--- Arquitetura e Organização de Computadores ---\n  " + RESET);
+        System.out.println("Trabalho de AOC  - 2° Bimestre - C.C UNESPAR");
+        System.out.println("Paloma de Castro Leite - 2ª Ano - 29.07.24");
+        System.out.println(PURPLE + "\n --- SIMULADOR DE CICLO DE INSTRUÇÕES --- " + RESET);
+
         // Menu de opções
         do {
-            System.out.println("==================================================================================");
+            System.out.println("\n==================================================================================");
             System.out.printf("= OPÇÕES: =\n");
             System.out.println("==================================================================================");
             System.out.printf("1. INSERIR\n");
