@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 // Classe principal que chama as classes de cada categoria de animais e exibe o menu principal
 // Sujeito a mudanças conforme a implementação do jogo
 
@@ -8,7 +7,7 @@ public class PetShop {
         while (true) {
             String[] options = {"Anfíbios", "Invertebrados", "Mamíferos", "Peixes", "Répteis", "Aves", "Sair"};
             int choice = JOptionPane.showOptionDialog(null, "Escolha uma categoria de animais para começar:", "Jogo de Adivinhação",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 
             switch (choice) {
                 case 0:

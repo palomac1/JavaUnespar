@@ -1,9 +1,6 @@
 package AOC.CicloDeInstrucao;
 
 import java.util.*;
-
-// ver mbr
-
 public class ControlaCicloInstrucao implements CicloInstrucao {
 
     private int PC = 0; // Contador de Programa para armazenar a posição da instrução atual
@@ -87,12 +84,13 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         String[] componentesInst = instrucao.split(" ");
         String opcode = componentesInst[0]; // Obtém o opcode da instrução
 
+        // Verifica o opcode da instrução e executa a instrução correspondente
         try {
             switch (opcode) {
                 case "000001":
                     if (componentesInst.length > 1) {
-                        int pos = Integer.parseInt(componentesInst[1]);
-                        inst000001(pos);
+                        int pos = Integer.parseInt(componentesInst[1]); // Converte o operando para inteiro
+                        inst000001(pos); 
                     } else {
                         System.out.println("Instrução inválida: Falta o operando.");
                     }
@@ -107,7 +105,8 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
                     }
                     break;
                 case "000011":
-                    if (componentesInst.length > 1) inst000011(Integer.parseInt(componentesInst[1]));
+                // Verifica se a instrução possui o operando e chama o método correspondente 
+                    if (componentesInst.length > 1) inst000011(Integer.parseInt(componentesInst[1])); 
                     break;
                 case "000100":
                     if (componentesInst.length > 1) inst000100(Integer.parseInt(componentesInst[1]));
@@ -159,7 +158,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
 
         String instrucao = instrucoes.get(PC - 1); // Obtém a instrução atual
         String[] componentesInst = instrucao.split(" ");
-        String opcode = componentesInst[0];
+        String opcode = componentesInst[0]; // Atualiza o opcode atual com o opcode da instrução atual
         String op1 = componentesInst.length > 1 ? componentesInst[1] : ""; // Atualiza o operando 1 atual com o operando 1 da instrução atual 
         String op2 = componentesInst.length > 2 ? componentesInst[2] : ""; // Atualiza o operando 2 atual com o operando 2 da instrução atual
         // Exibe o ciclo de instrução detalhado
@@ -324,6 +323,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         }
     }
 
+    // Métodos para executar cada instrução específica
     public void inst000001(int pos) {
         MBR = memoria[pos];
         verificaFlags();
@@ -388,6 +388,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
     }
 
     public void inst001100() {
+        // NOP
     }
 
     // Método para verificar as flags Zero e Negativa

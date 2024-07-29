@@ -1,5 +1,4 @@
 package AOC.CicloDeInstrucao;
-
 import java.util.Scanner;
 
 // Classe para usar o ciclo de instrução e realizar as operações de inserir, ver instruções e executar
