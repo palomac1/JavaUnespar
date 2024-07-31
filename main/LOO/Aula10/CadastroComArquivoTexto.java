@@ -55,11 +55,12 @@ public class CadastroComArquivoTexto extends JFrame {
         add(tfCodigo);
         add(tfNome);
         add(tfEmail);
+        
         pessoa = new Pessoa();
     }
 
-
     public void definirEventos() {
+
         btLimpar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tfCodigo.setText("");
@@ -67,7 +68,6 @@ public class CadastroComArquivoTexto extends JFrame {
                 tfEmail.setText("");
             }
         });
-
 
         btGravar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -88,7 +88,6 @@ public class CadastroComArquivoTexto extends JFrame {
                 }
             }
         });
-
 
         btAbrir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

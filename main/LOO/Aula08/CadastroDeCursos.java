@@ -6,7 +6,6 @@ import javax.swing.*;
 public class CadastroDeCursos {
 
     public static void main(String[] args) {
-
         JFrame frame = new JFrame("Cadastro de Cursos");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(450, 340);
@@ -24,6 +23,7 @@ public class CadastroDeCursos {
         private JButton btConsultar;
         private JButton btGravar;
         private JButton btLimpar;
+        private Curso curso;
 
         public CadastroCurso() {
             inicializarComponentes();
@@ -78,6 +78,8 @@ public class CadastroDeCursos {
             add(btConsultar);
             add(btGravar);
             add(btLimpar);
+
+            curso = new Curso();
         }
 
         private void definirEventos() {
@@ -99,12 +101,12 @@ public class CadastroDeCursos {
                         JOptionPane.showMessageDialog(null, "Modalidade não selecionada.");
                         cbModalidade.requestFocus();
                     } else {
-                        String codigo = tfCodigo.getText();
-                        String nomeCurso = tfCurso.getText();
-                        String cargaHoraria = tfCarga.getText();
-                        String tipoCurso = cbCaixas.getSelectedItem().toString();
-                        String modalidade = cbModalidade.getSelectedItem().toString();
-                        JOptionPane.showMessageDialog(null, "Curso cadastrado:\nCódigo: " + codigo + "\nNome do Curso: " + nomeCurso + "\nCarga Horária: " + cargaHoraria + "\nTipo de Curso: " + tipoCurso + "\nModalidade: " + modalidade);
+                        curso.codigo = tfCodigo.getText();
+                        curso.nomeCurso = tfCurso.getText();
+                        curso.cargaHoraria = tfCarga.getText();
+                        curso.tipoCurso = cbCaixas.getSelectedItem().toString();
+                        curso.modalidade = cbModalidade.getSelectedItem().toString();
+                        JOptionPane.showMessageDialog(null, curso.gravar("c:/temp"));
                     }
                 }
             });
@@ -121,8 +123,17 @@ public class CadastroDeCursos {
 
             btConsultar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    String codigo = JOptionPane.showInputDialog("Digite o código do curso a ser consultado:");
-                    JOptionPane.showMessageDialog(null, "Código consultado: " + codigo);
+                    curso.codigo = JOptionPane.showInputDialog("Digite o código do curso a ser consultado:");
+                    curso = curso.ler("c:/temp");
+                    if (curso != null) {
+                        tfCodigo.setText(curso.codigo);
+                        tfCurso.setText(curso.nomeCurso);
+                        tfCarga.setText(curso.cargaHoraria);
+                        cbCaixas.setSelectedItem(curso.tipoCurso);
+                        cbModalidade.setSelectedItem(curso.modalidade);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Curso não encontrado");
+                    }
                 }
             });
         }

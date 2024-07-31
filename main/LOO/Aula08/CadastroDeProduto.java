@@ -1,25 +1,24 @@
 package LOO.Aula08;
-import java.awt.event.*;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CadastroDeProduto {
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Cadastro de Produtos");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.add(new ProdutoPanel());
-        frame.setVisible(true);
-    }
-
     public static class ProdutoPanel extends JPanel {
 
-        private JTextField tfCodigo;
-        private JTextField tfDescricao;
-        private JTextField tfPreco;
-        private JButton btConsultar;
-        private JButton btGravar;
-        private JButton btLimpar;
+        private JTextField tfCodigo, tfDescricao, tfPreco;
+        private JButton btConsultar, btGravar, btLimpar;
+        private Produto produto;
+
+        public static void main(String[] args) {
+            JFrame frame = new JFrame("Cadastro de Produtos");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(400, 300);
+            frame.add(new ProdutoPanel());
+            frame.setVisible(true);
+        }
 
         public ProdutoPanel() {
             inicializarComponentes();
@@ -60,6 +59,8 @@ public class CadastroDeProduto {
             add(btConsultar);
             add(btGravar);
             add(btLimpar);
+
+            produto = new Produto();
         }
 
         private void definirEventos() {
@@ -75,10 +76,10 @@ public class CadastroDeProduto {
                         JOptionPane.showMessageDialog(null, "Preço não preenchido.");
                         tfPreco.requestFocus();
                     } else {
-                        String codigo = tfCodigo.getText();
-                        String descricao = tfDescricao.getText();
-                        String preco = tfPreco.getText();
-                        JOptionPane.showMessageDialog(null, "Produto cadastrado:\nCódigo: " + codigo + "\nDescrição: " + descricao + "\nPreço: " + preco);
+                        produto.codigo = tfCodigo.getText();
+                        produto.descricao = tfDescricao.getText();
+                        produto.preco = tfPreco.getText();
+                        JOptionPane.showMessageDialog(null, produto.gravar("c:/temp"));
                     }
                 }
             });
@@ -93,8 +94,15 @@ public class CadastroDeProduto {
 
             btConsultar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    String codigo = JOptionPane.showInputDialog("Digite o código do produto a ser consultado:");
-                    JOptionPane.showMessageDialog(null, "Código consultado: " + codigo);
+                    produto.codigo = JOptionPane.showInputDialog(null, "Digite o código do produto a ser consultado:");
+                    produto = produto.ler("c:/temp");
+                    if (produto != null) {
+                        tfCodigo.setText(produto.codigo);
+                        tfDescricao.setText(produto.descricao);
+                        tfPreco.setText(produto.preco);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Produto não encontrado");
+                    }
                 }
             });
         }
