@@ -5,28 +5,37 @@ import java.io.*;
 public class Curso {
     public String codigo, nomeCurso, cargaHoraria, tipoCurso, modalidade;
 
-    public String gravar(String caminho) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminho + "/" + codigo + ".txt"))) {
-            bw.write(codigo + "\n");
-            bw.write(nomeCurso + "\n");
-            bw.write(cargaHoraria + "\n");
-            bw.write(tipoCurso + "\n");
-            bw.write(modalidade + "\n");
+    public String gravar(String path) {
+        try {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            
+        PrintWriter pw = new PrintWriter(path + "/" + codigo + ".txt");
+            pw.write(codigo + "\n");
+            pw.write(nomeCurso + "\n");
+            pw.write(cargaHoraria + "\n");
+            pw.write(tipoCurso + "\n");
+            pw.write(modalidade + "\n");
+            pw.close();
             return "Curso gravado com sucesso!";
-        } catch (IOException e) {
-            return "Erro ao gravar o curso: " + e.getMessage();
+        } catch (IOException erro) {
+            return "Erro ao gravar o curso: " + erro.toString();
         }
     }
 
-    public Curso ler(String caminho) {
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho + "/" + codigo + ".txt"))) {
+    public Curso ler(String path) {
+        try (BufferedReader br = new BufferedReader(
+            new FileReader(path + "/" + codigo + ".txt"))) {
             Curso curso = new Curso();
             curso.codigo = br.readLine();
             curso.nomeCurso = br.readLine();
             curso.cargaHoraria = br.readLine();
             curso.tipoCurso = br.readLine();
             curso.modalidade = br.readLine();
-            return curso;
+            br.close();
+            return this;
         } catch (IOException e) {
             return null;
         }

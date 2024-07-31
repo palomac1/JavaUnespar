@@ -32,7 +32,7 @@ public class Contas {
             conta.Titular = br.readLine();
             conta.Saldo = br.readLine();
             conta.TipoConta = br.readLine();
-            return conta;
+            return this;
         } catch (IOException e) {
             return null;
         }
