@@ -10,6 +10,7 @@ import java.util.Date;
 public class ManipulacaoDataHora6 extends JFrame {
     private JTextArea taTexto;
     private JButton btMostrar;
+    @SuppressWarnings("unused")
     private Date agora;
     final long MILI_SEGUNDOS_POR_DIA = 1000 * 60 * 60 * 24;
 

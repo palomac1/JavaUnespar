@@ -61,6 +61,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         System.out.println("==================================================================================");
 
         System.out.println("Instruções que já foram inseridas: ");
+        // Exibe as instruções inseridas pelo usuário por meio da lista de instruções
         for (String instrucao : instrucoes) {
             System.out.println(instrucao);
         }
@@ -84,7 +85,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         String[] componentesInst = instrucao.split(" ");
         String opcode = componentesInst[0]; // Obtém o opcode da instrução
 
-        // Verifica o opcode da instrução e executa a instrução correspondente
+        // Verifica o opcode da instrução e executa a instrução correspondente com base no opcode
         try {
             switch (opcode) {
                 case "000001":
@@ -161,6 +162,7 @@ public class ControlaCicloInstrucao implements CicloInstrucao {
         String opcode = componentesInst[0]; // Atualiza o opcode atual com o opcode da instrução atual
         String op1 = componentesInst.length > 1 ? componentesInst[1] : ""; // Atualiza o operando 1 atual com o operando 1 da instrução atual 
         String op2 = componentesInst.length > 2 ? componentesInst[2] : ""; // Atualiza o operando 2 atual com o operando 2 da instrução atual
+        
         // Exibe o ciclo de instrução detalhado
         System.out.println("==================================================================================");
         System.out.println("CÁLCULO DO ENDEREÇO DA INSTRUÇÃO:");
