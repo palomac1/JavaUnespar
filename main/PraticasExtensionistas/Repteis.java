@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Repteis extends JFrame{
 
     static void repteis(){
-        if (Sim("Eu gosto de ficar em terra firma?")) {
+        if (Sim("Eu gosto de andar em terra firme?")) {
             if (Sim("Levo um grande peso nas costas?")) {
                 if (Sim("Eu sou um Jabuti?")) {
                     JOptionPane.showMessageDialog(null, "Acertei, obrigado por jogar!");
@@ -54,7 +54,7 @@ public class Repteis extends JFrame{
             }
             
         }else{
-            if(Sim("Estou sempre ou quase sempre na agua?")){
+            if(Sim("Eu sei nadar?")){
                 if(Sim("Sou conhecida nas historias por ser lenta?")){
                     if(Sim("Eu sou uma Tartaruga?")){
                         JOptionPane.showMessageDialog(null, "Obrigada por jogar!");    

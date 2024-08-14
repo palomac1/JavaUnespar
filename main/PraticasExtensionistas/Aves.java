@@ -7,7 +7,7 @@ public class Aves {
         if (Sim("Sou uma ave de pequeno porte?")) {
             if (Sim("Sou bem colorido?")) {
                 if (Sim("Posso falar?")) {
-                    if (Sim("Sou um Periquito?")) {
+                    if (Sim("Sou uma Calopsita?")) {
                         JOptionPane.showMessageDialog(null, "Acertei, obrigado por jogar!");
                     } else {
                         JOptionPane.showMessageDialog(null, "Desculpe, não vendemos esse animal! Posso tentar adivinhar outro?");

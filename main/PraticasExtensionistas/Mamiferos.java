@@ -27,7 +27,7 @@ public class Mamiferos {
                 JOptionPane.showMessageDialog(null, "Desculpe, não vendemos esse animal! Posso tentar adivinhar outro?");
             }
         } else if (Sim("Sou herbívoro?")) {
-            if (Sim("Posso correr a 40 km/h?")) {
+            if (Sim("Fui parceira de uma raposa em um filme da Disney?")) {
                 if (Sim("Sou um coelho?")) {
                     JOptionPane.showMessageDialog(null, "Acertei, obrigado por jogar!");
                 } else {
