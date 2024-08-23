@@ -153,52 +153,61 @@ public class RelogioComTorque extends JFrame implements ActionListener {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-
+        
+            Graphics2D g2d = (Graphics2D) g.create(); // Criar uma cópia do Graphics2D para manipulação
+        
             // Desenha o fundo do relógio
             int centerX = getWidth() / 2;
             int centerY = getHeight() / 2;
             int raioRelogio = 100; // Raio do relógio em pixels
-
-            g.setColor(Color.WHITE);
-            g.fillOval(centerX - raioRelogio, centerY - raioRelogio, 2 * raioRelogio, 2 * raioRelogio);
-            g.setColor(Color.BLACK);
-            g.drawOval(centerX - raioRelogio, centerY - raioRelogio, 2 * raioRelogio, 2 * raioRelogio);
-
+        
+            g2d.setColor(Color.WHITE);
+            g2d.fillOval(centerX - raioRelogio, centerY - raioRelogio, 2 * raioRelogio, 2 * raioRelogio);
+            g2d.setColor(Color.BLACK);
+            g2d.drawOval(centerX - raioRelogio, centerY - raioRelogio, 2 * raioRelogio, 2 * raioRelogio);
+        
             // Desenhar as espiras fora do relógio
             for (int i = 0; i < numeroEspiras; i++) {
                 int espiraRaio = raioRelogio + (i + 1) * 15; // Espiras fora do relógio
-                g.drawOval(centerX - espiraRaio, centerY - espiraRaio, 2 * espiraRaio, 2 * espiraRaio);
+                g2d.drawOval(centerX - espiraRaio, centerY - espiraRaio, 2 * espiraRaio, 2 * espiraRaio);
             }
-
+        
             // Desenhar os números do relógio
             for (int i = 1; i <= 12; i++) {
                 int angulo = 360 / 12 * i;
                 double radianos = Math.toRadians(angulo);
                 int x = (int) (centerX + (raioRelogio - 20) * Math.sin(radianos));
                 int y = (int) (centerY - (raioRelogio - 20) * Math.cos(radianos));
-                g.drawString(Integer.toString(i), x - 5, y + 5);
+                g2d.drawString(Integer.toString(i), x - 5, y + 5);
             }
-
+        
             // Desenhar o ponteiro das horas
-            double anguloHoras = 360 / 12 * horas + 360 / 12 * (minutos / 60.0);
+            double anguloHoras = 360 / 12 * (horas % 12) + 360 / 12 * (minutos / 60.0);
             double radHoras = Math.toRadians(anguloHoras);
             int xHoras = (int) (centerX + (raioRelogio - 50) * Math.sin(radHoras));
             int yHoras = (int) (centerY - (raioRelogio - 50) * Math.cos(radHoras));
-            g.drawLine(centerX, centerY, xHoras, yHoras);
-
+            g2d.drawLine(centerX, centerY, xHoras, yHoras);
+        
             // Desenhar o ponteiro dos minutos
             double anguloMinutos = 360 / 60 * minutos;
             double radMinutos = Math.toRadians(anguloMinutos);
             int xMinutos = (int) (centerX + (raioRelogio - 30) * Math.sin(radMinutos));
             int yMinutos = (int) (centerY - (raioRelogio - 30) * Math.cos(radMinutos));
-            g.drawLine(centerX, centerY, xMinutos, yMinutos);
-
-            // Desenhar o ímã representando o campo magnético
-            g.setColor(Color.RED);
-            g.fillRect(centerX + raioRelogio + 15, centerY - 15, 40, 40);
-            g.setColor(Color.BLACK);
-            g.drawString("N", centerX + raioRelogio + 30, centerY - 5);
-            g.drawString("S", centerX + raioRelogio + 30, centerY + 20);
+            g2d.drawLine(centerX, centerY, xMinutos, yMinutos);
+        
+            // Desenhar o ímã representando o campo magnético com rotação 
+            g2d.setColor(Color.RED);
+            int imãX = (int) (centerX + (raioRelogio + 20) * Math.sin(radHoras)); // Usa o centerX + para inverter a direção do ímã, já que o eixo x cresce para a direita, assim o ímã aponta para o ponteiro das horas
+            int imãY = (int) (centerY - (raioRelogio + 20) * Math.cos(radHoras)); // Usa o centerY - para inverter a direção do ímã ja que o eixo y cresce para baixo, assim o ímã aponta para o ponteiro das horas
+            // Transladar e rotacionar para alinhar o ímã com o ponteiro das horas
+            g2d.translate(imãX, imãY); // Gira o imã para a direção do ponteiro das horas, que é o torque
+            g2d.rotate(radHoras); // Gira o imã para a diireção do torque, usando o ângulo do ponteiro das horas como referência
+            
+            // Desenhar o ímã como um retângulo rotacionado
+            g2d.fillRect(-20, -5, 40, 10); 
+        
+            g2d.dispose(); // Liberar o contexto gráfico para economizar memória 
         }
+        
     }
 }

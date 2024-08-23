@@ -8,6 +8,8 @@ public class 1013 {
         int b = s.nextInt();
         int c = s.nextInt();
 
+        //ACHA O MAIOR ENTRE 3 NUMEROS
+
         int maior = (a + b + Math.abs(a-b)) / 2;
         int maiorABC = (maior + c + Math.abs(maior - c)) / 2; 
 
