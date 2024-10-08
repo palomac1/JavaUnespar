@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/main/1ºano/1ºano.iml" filepath="$PROJECT_DIR$/main/1ºano/1ºano.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaUnespar.iml" filepath="$PROJECT_DIR$/JavaUnespar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main/LOO/LOO.iml" filepath="$PROJECT_DIR$/main/LOO/LOO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main/main.iml" filepath="$PROJECT_DIR$/main/main.iml" />
+    </modules>
+  </component>
+</project>
