@@ -1,6 +1,6 @@
 {
     "java.project.sourcePaths": [
-        "LFA"
+        "main"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
